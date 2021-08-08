@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Knickerbocker Map 1v0.1</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
+	<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script> 
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
+    
+    <script>
+
+		document.addEventListener("DOMContentLoaded", function(event) {
+			createMap();
+		});
+
+		function createMap(){
+			mapboxgl.accessToken = 'pk.eyJ1Ijoiam9leWF6b3VsYWkiLCJhIjoiY2sxdGY1cWFqMDF1eTNucG1jYWRsYXRubCJ9.DNluSEycegu6JLC2N5A_mw';
+			var mapElement = document.getElementById('map');
+			var map = new mapboxgl.Map({
+		        container: 'map',
+		        style: 'mapbox://styles/joeyazoulai/cklwv17xj5q8517lkcb89xdil',
+		        center: [-73.96651428654653, 40.78187555963078],
+		        zoom: 11
+			});
+			mapIsLoaded(map);
+		}
+
+		function mapIsLoaded(map){
+			var map = map;
+			map.once('idle', function(){
+				configureUserInteractions(map);
+				addDataToMap(map);
+				displayMapMetadata(map);
+				lockMapView(map);
+			});
+		}
+
+		function configureUserInteractions(map){
+			map.touchZoomRotate.disableRotation();
+
+			map.on('zoom', function(){	
+				map.dragPan.disable();
+				map.dragRotate.disable();
+			});
+
+			map.on('zoomend', function(){
+				map.dragPan.enable();
+				map.dragRotate.enable();
+			});
+			
+		}
+
+		function addDataToMap(map){
+			map.addSource('national-park', {
+				'type': 'geojson',
+				'data': 'mapData/nyc_neighborhoods_pediacities.geojson'
+			});
+ 
+			map.addLayer({
+				'id': 'park-boundary',
+				'type': 'line',
+				'source': 'national-park',
+				'paint': {
+					'line-color': '#AA4949',
+					'line-width': 2
+				}
+			});
+		}
+
+		function displayMapMetadata(map){
+			var map = map;
+			var mapZoom = map.getZoom();
+			var mapCenter = map.getCenter();
+			var mapCenterLatitude = mapCenter.lat;
+			var mapCenterLongitude = mapCenter.lng;
+			
+			document.getElementById('info').innerHTML = 'CENTER: ' +mapCenterLongitude+', '+mapCenterLatitude+ ' ZOOM: '+mapZoom;
+
+			map.on('move', function(){
+				mapZoom = map.getZoom();
+				mapCenter = map.getCenter();
+				mapCenterLatitude = mapCenter.lat;
+				mapCenterLongitude = mapCenter.lng;
+
+				document.getElementById('info').innerHTML = 'CENTER: ' +mapCenterLongitude+', '+mapCenterLatitude+ ' ZOOM: '+mapZoom;
+			});
+		}
+
+		function lockMapView(map){
+			var map = map;
+			document.getElementById('lockMapView').onclick = function(){
+				if(this.classList.contains('unlocked')){
+					map.dragPan.disable()
+					map.dragRotate.disable();
+					map.touchZoomRotate.disable();
+					map.boxZoom.disable();
+					map.doubleClickZoom.disable();
+					map.dragPan.disable();
+					map.dragRotate.disable();
+					map.keyboard.disable();
+					map.scrollZoom.disable();
+					this.innerHTML = 'unlock'
+				}else{
+					map.dragPan.enable();
+					map.dragRotate.enable();
+					map.touchZoomRotate.enable();
+					map.boxZoom.enable();
+					map.doubleClickZoom.enable();
+					map.dragPan.enable();
+					map.dragRotate.enable();
+					map.keyboard.enable();
+					map.scrollZoom.enable();
+					this.innerHTML = 'lock'
+				}
+				this.classList.toggle('unlocked')
+			};
+
+
+
+
+		}
+/* Unused functions
+		function getMapData(map){
+
+			var map = map;
+			var dataUrl = "mapData/nyc_neighborhoods_pediacities.geojson";
+
+			fetch(dataUrl)
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+			  		addDataToMap(map);
+				})
+				.catch(error => console.error(error));
+		}
+
+		function addDataToMap(map){
+			map.addSource('national-park', {
+				'type': 'geojson',
+				'data': 'mapData/nyc_neighborhoods_pediacities.geojson'
+			});
+ 
+			map.addLayer({
+				'id': 'park-boundary',
+				'type': 'line',
+				'source': 'national-park',
+				'paint': {
+					'line-color': '#AA4949',
+					'line-width': 2
+				}
+			});
+
+		}
+
+		function filterSources(data){
+			var data = data;
+			var features = data.features;
+
+			//console.log(features[0].properties.name);
+
+			for (let i = 0; i < data.features.length; i++) {
+			  //console.log(features[i].properties.name);
+			  if(features[i].properties.neighborhood == "Riverdale"){
+			  	console.log(features[i]);
+			  }
+			}
+		}
+
+		function accessMapboxAPI(){
+			var accessToken = 'pk.eyJ1Ijoiam9leWF6b3VsYWkiLCJhIjoiY2sxdGY1cWFqMDF1eTNucG1jYWRsYXRubCJ9.DNluSEycegu6JLC2N5A_mw';
+			var mapboxClient = mapboxSdk({ accessToken: accessToken });
+
+			var mapboxClientKeys = {
+				'accessToken': accessToken,
+				'mapboxClient': mapboxClient
+			}
+			getDatasets(mapboxClientKeys);
+			console.log('mapbox api keys obtained');
+		}
+
+		function getDatasets(mapboxClientKeys){
+			var mapboxClientKeys = mapboxClientKeys;
+			var accessToken = mapboxClientKeys.ACCESSTOKEN;
+			var mapboxClient = mapboxClientKeys.mapboxClient;
+			var datasetsClient = mapboxClient.datasets;
+
+			//getAllDatasets(datasetsClient);
+			//getAllFeatures(datasetsClient);
+			//getDatasetMetadata(datasetsClient);
+		};
+
+		function getAllDatasets(datasetsClient){
+			
+			datasetsClient.listDatasets()
+			.send()
+		  	.then(response => {
+		  		const datasets = response.body;
+		  		console.log(datasets);
+		  	});
+		}
+
+		function getDatasetMetadata(datasetsClient){
+			datasetsClient.getMetadata({
+			  datasetId: 'ckr6daude04yg21o3fwbu9ijq'
+			})
+			.send()
+			.then(response => {
+				const datasetMetadata = response.body;
+				console.log(datasetMetadata);
+			})
+		}
+
+		function getAllFeatures(datasetsClient){
+			
+			datasetsClient.listFeatures({
+				datasetId: 'ckr6daude04yg21o3fwbu9ijq'
+			})
+			.send()
+		  	.then(response => {
+		  		const features = response;
+		  		console.log(features);
+		  	});
+		}
+
+		function updateFeature(datasetsClient){
+			datasetsClient.putFeature({
+			  datasetId: 'dataset-id',
+			  featureId: 'null-island',
+			  feature: {
+			    "type": "Feature",
+			    "properties": { "name": "Null Island" },
+			    "geometry": {
+			      "type": "Point",
+			      "coordinates": [0, 0]
+			    }
+			  }
+			})
+			  .send()
+			  .then(response => {
+			    const feature = response.body;
+			  });
+		}
+unused functions */
+</script>
+    <style>
+		body { margin: 0; padding: 0; }
+		#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        </style>
+
+</head>
+<body>
+	<style type="text/css">
+		#info {
+			display: table;
+			position: relative;
+			margin: 0px auto;
+			word-wrap: anywhere;
+			white-space: pre-wrap;
+			padding: 10px;
+			border: none;
+			border-radius: 3px;
+			font-size: 12px;
+			text-align: center;
+			color: #222;
+			background: #fff;
+		}
+		#lockMapView {
+			position: relative;
+			border-radius: 3px;	
+		}
+</style>
+	<div id="map"></div>
+	<pre id="info">Test</pre>
+	<button id="lockMapView" class='unlocked'>Lock</button>
+</body>
+</html>
