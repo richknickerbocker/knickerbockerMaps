@@ -244,8 +244,14 @@
 unused functions */
 </script>
     <style>
-		body { margin: 0; padding: 0; }
-		#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+		body {
+			margin: 0px;
+			padding: 0;
+			width:  100vw;
+			height:  100vh;
+
+		}
+		#map { top: 0; bottom: 0; width: calc(100% - 10px); height:  calc(100% - 10px); border: 5px solid red;}
         </style>
 
 </head>
@@ -253,7 +259,6 @@ unused functions */
 	<style type="text/css">
 		#info {
 			display: table;
-			position: relative;
 			margin: 0px auto;
 			word-wrap: anywhere;
 			white-space: pre-wrap;
@@ -265,14 +270,66 @@ unused functions */
 			color: #222;
 			background: #fff;
 			opacity: 0.5;
+			z-index:  1;
+		}
+		#crosshairX, #crosshairY {
+			position: absolute; 
+			background:  red;
+			z-index:  1;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+		#crosshairX {
+			width: 3px;
+			height:  50px;
+		}
+		#crosshairY {
+			width: 50px;
+			height:  3px;
 		}
 		#lockMapView {
-			position: relative;
+			position: flex;
 			border-radius: 3px;	
 		}
+		#centerInput {
+			position: relative;
+			width:  100%;
+		}
+		#mapControls {
+			position: absolute;
+			width:  30vw;
+			height: 100vh;
+			z-index:  1;
+			background:  white;
+			margin-left:  -30vw;
+		}
+		#mapControlToggle {
+			position: absolute;
+			width:  50px;
+			height:  50px;
+			background:  white;
+			z-index:  1;
+		}
 </style>
+	<div id=mapControlToggle></div>
+	<div id=mapControls>
+		<pre id="info">Test</pre>
+		<form id="centerInput">
+		  <label for="xCoord">x</label><br>
+		  <input type="number" id="xCoord" name="xCoord"><br>
+		  <label for="lname">y</label><br>
+		  <input type="number" id="yCoord" name="yCoord"><br>
+		  <label for="zoom">zoom</label><br>
+		  <input type="number" id="zoom" name="zoom">
+		</form>
+	</div>
+	<div id="crosshairX"></div>
+	<div id="crosshairY"></div>
 	<div id="map"></div>
-	<pre id="info">Test</pre>
+	
+	
+
 	<button id="lockMapView" class='unlocked'>Lock</button>
 </body>
 </html>
