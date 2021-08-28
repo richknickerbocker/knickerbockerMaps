@@ -12,7 +12,17 @@
 
 		document.addEventListener("DOMContentLoaded", function(event) {
 			createMap();
+			toggleMapControlsMenu();
 		});
+
+		function toggleMapControlsMenu(){
+			var mapMenuButton = document.getElementById("mapMenuButton");
+			var mapMenuContainer = document.getElementById("mapMenuContainer");
+			mapMenuButton.onclick = function(){
+				mapMenuContainer.classList.toggle('open')
+			}
+		};
+
 
 		function createMap(){
 			mapboxgl.accessToken = 'pk.eyJ1Ijoiam9leWF6b3VsYWkiLCJhIjoiY2sxdGY1cWFqMDF1eTNucG1jYWRsYXRubCJ9.DNluSEycegu6JLC2N5A_mw';
@@ -114,12 +124,11 @@
 					this.innerHTML = 'lock'
 				}
 				this.classList.toggle('unlocked')
-			};
+			}
+		};
 
 
 
-
-		}
 /* Unused functions
 		function getMapData(map){
 
@@ -251,7 +260,7 @@ unused functions */
 			height:  100vh;
 
 		}
-		#map { top: 0; bottom: 0; width: calc(100% - 10px); height:  calc(100% - 10px); border: 5px solid red;}
+		#map {position: absolute; top: 0; bottom: 0; width: calc(100% - 10px); height:  calc(100% - 10px); border: 5px solid red; }
         </style>
 
 </head>
@@ -270,12 +279,11 @@ unused functions */
 			color: #222;
 			background: #fff;
 			opacity: 0.5;
-			z-index:  1;
 		}
 		#crosshairX, #crosshairY {
 			position: absolute; 
 			background:  red;
-			z-index:  1;
+		
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
@@ -296,24 +304,29 @@ unused functions */
 			position: relative;
 			width:  100%;
 		}
-		#mapControls {
+		#mapMenuContainer {
 			position: absolute;
 			width:  30vw;
 			height: 100vh;
-			z-index:  1;
 			background:  white;
 			margin-left:  -30vw;
+			margin-top:  50px;
 		}
-		#mapControlToggle {
+		#mapMenuContainer.open {
+			margin-left:  0vw;
+		}
+		#mapMenuButton {
 			position: absolute;
 			width:  50px;
 			height:  50px;
 			background:  white;
-			z-index:  1;
+		}
+		#mapMenuButton, #mapMenuContainer, #crosshairX, #crosshairY   {
+			z-index: 1;
 		}
 </style>
-	<div id=mapControlToggle></div>
-	<div id=mapControls>
+	<div id=mapMenuButton></div>
+	<div id=mapMenuContainer>
 		<pre id="info">Test</pre>
 		<form id="centerInput">
 		  <label for="xCoord">x</label><br>
