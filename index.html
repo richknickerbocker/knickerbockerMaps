@@ -5,7 +5,8 @@
     <title>Knickerbocker Map 1v0.1</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
-	<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script> 
+	<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+	<script src='mapData/nyc_council_districts.geojson'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
     
     <script>
@@ -44,6 +45,7 @@
 				displayMapMetadata(map);
 				lockMapView(map);
 				setMapView(map);
+				getMapData(map);
 			});
 		}
 
@@ -60,23 +62,6 @@
 				map.dragRotate.enable();
 			});
 			
-		}
-
-		function addDataToMap(map){
-			map.addSource('national-park', {
-				'type': 'geojson',
-				'data': 'mapData/nyc_neighborhoods_pediacities.geojson'
-			});
- 
-			map.addLayer({
-				'id': 'park-boundary',
-				'type': 'line',
-				'source': 'national-park',
-				'paint': {
-					'line-color': '#AA4949',
-					'line-width': 2
-				}
-			});
 		}
 
 		function displayMapMetadata(map){
@@ -156,13 +141,91 @@
 
 	};
 
+	function getMapData(map){
+
+		var lineOpacityProperty =   ["match",["get", "CounDist"],[11],1,0]
+
+		var mapboxSource = map.addSource('nyc_council_districts', {
+			'type': 'geojson',
+			'generateId' : true,
+			'data': nycCouncilDistricts
+		});
+		
+		map.addLayer({
+			'id': 'nyc_council_districts_boundary_lines',
+			'type': 'line',
+			'source': 'nyc_council_districts',
+			'layout' : {
+				'visibility' : 'visible'
+			},
+			'paint': {
+				'line-color': '#ff0000',
+				'line-width': 5
+				}
+		});
+
+		map.setPaintProperty('nyc_council_districts_boundary_lines','line-width', ["match",["get", "coun_dist"],["11"],10,1]);
+		
+	};
+
+	/*
+
+		function addDataToMap(map){
+			map.addSource('national-park', {
+				'type': 'geojson',
+				'data': 'mapData/nyc_neighborhoods_pediacities.geojson'
+			});
+ 
+			map.addLayer({
+				'id': 'park-boundary',
+				'type': 'line',
+				'source': 'national-park',
+				'paint': {
+					'line-color': '#AA4949',
+					'line-width': 2
+				}
+			});
+		}
+
+	function getMapData(map){
+
+			var map = map;
+			var dataUrl = "mapData/nyc_neighborhoods_pediacities.geojson";
+
+			fetch(dataUrl)
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+			  		addDataToMap(map);
+				})
+				.catch(error => console.error(error));
+		}
+
+		function addDataToMap(map){
+			map.addSource('national-park', {
+				'type': 'geojson',
+				'data': 'mapData/nyc_council_districts.geojson'
+			});
+ 
+			map.addLayer({
+				'id': 'park-boundary',
+				'type': 'line',
+				'source': 'national-park',
+				'paint': {
+					'line-color': '#AA4949',
+					'line-width': 2
+				}
+			});
+
+		}
+
 	function politicalBoundaryStyle(map){
 		var map = map;
 		var style = {
 			'map' : map,
 			'layerId' : 'HomeBoundaries',
 			'propertyName' : 'fill-opacity',
-			'dataUrl' : 'https://joeyazoulai.github.io/StoryMap/mapstyles/HomeBoundariesOpacity.json',
+			'dataUrl' : 'https://richknickerbocker.github.io/knickerbockerMaps/mapData/nyc_council_districts.geojson',
 		};
 		setLayerStyle(style);
 	}
@@ -183,7 +246,7 @@
 			})
 			.catch(error => console.error(error));	
 	}
-
+*/
 
 
 /* Unused functions
