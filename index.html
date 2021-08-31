@@ -6,7 +6,9 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
 	<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
-	<script src='mapData/nyc_council_districts.geojson'></script>
+	<script src='mapData/nycCityCouncilDistricts.js'></script>
+	<script src='mapData/nycNeighborhoodsPediacities.js'></script>
+	<script src='mapData/nycCommunityBoardDistricts.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
     
     <script>
@@ -143,28 +145,76 @@
 
 	function getMapData(map){
 
-		var lineOpacityProperty =   ["match",["get", "CounDist"],[11],1,0]
+		nycNeighborhoodsPediacities
+		nycCityCouncilDistricts
+		nycCommunityBoardDistricts
 
-		var mapboxSource = map.addSource('nyc_council_districts', {
+		map.addSource('nycCityCouncilDistrictsSource', {
 			'type': 'geojson',
 			'generateId' : true,
-			'data': nycCouncilDistricts
+			'data': nycCityCouncilDistricts
+		});
+		map.addSource('nycCommunityBoardDistrictsSource', {
+			'type': 'geojson',
+			'generateId' : true,
+			'data': nycCommunityBoardDistricts
+		});
+		map.addSource('nycNeighborhoodsPediacitiesSource', {
+			'type': 'geojson',
+			'generateId' : true,
+			'data': nycNeighborhoodsPediacities
 		});
 		
 		map.addLayer({
-			'id': 'nyc_council_districts_boundary_lines',
+			'id': 'nycCityCouncilDistrictsLineLayer',
 			'type': 'line',
-			'source': 'nyc_council_districts',
+			'source': 'nycCityCouncilDistrictsSource',
 			'layout' : {
 				'visibility' : 'visible'
 			},
 			'paint': {
-				'line-color': '#ff0000',
-				'line-width': 5
+				'line-color': '#ff0000'
+				}
+		});
+		map.addLayer({
+			'id': 'nycCommunityBoardDistrictsLineLayer',
+			'type': 'line',
+			'source': 'nycCommunityBoardDistrictsSource',
+			'layout' : {
+				'visibility' : 'visible'
+			},
+			'paint': {
+				'line-color': '#ff0000'
+				}
+		});
+		map.addLayer({
+			'id': 'nycNeighborhoodsPediacitiesLineLayer',
+			'type': 'line',
+			'source': 'nycNeighborhoodsPediacitiesSource',
+			'layout' : {
+				'visibility' : 'visible'
+			},
+			'paint': {
+				'line-color': '#ff0000'
 				}
 		});
 
-		map.setPaintProperty('nyc_council_districts_boundary_lines','line-width', ["match",["get", "coun_dist"],["11"],10,1]);
+		var nycCityCouncilDistrictsLineLayerToggle = document.getElementById("nycCityCouncilDistrictsLineLayerToggle");
+
+		nycCityCouncilDistrictsLineLayerToggle.onclick = function(){
+
+				if(nycCityCouncilDistrictsLineLayerToggle.checked == true ) {
+					map.setPaintProperty('nycCityCouncilDistrictsLineLayer','line-width', ["match",["get", "coun_dist"],["11"],10,1]);
+				} else {
+					map.setPaintProperty('nycCityCouncilDistrictsLineLayer','line-width', ["match",["get", "coun_dist"],["11"],1,1]);
+				}
+		}
+
+
+		
+		map.setPaintProperty('nycCommunityBoardDistrictsLineLayer','line-width', ["match",["get", "boro_cd"],["208"],10,1]);
+		
+		map.setPaintProperty('nycNeighborhoodsPediacitiesLineLayer','line-width', ["match",["get", "neighborhood"],["Spuyten Duyvil"],10,1]);	
 		
 	};
 
@@ -439,6 +489,7 @@ unused functions */
 			margin-bottom: 50px;
 			border-radius: 10px;
 			box-shadow: 0 0 50px -25px black;
+			overflow-y: scroll;
 		}
 		#mapMenuContainer.open {
 			margin-left:  0vw;
@@ -456,6 +507,68 @@ unused functions */
 		button {
 			padding: 5vw;
 		}
+		 /* The switch - the box around the slider */
+		.switch {
+		  position: relative;
+		  display: inline-block;
+		  width: 60px;
+		  height: 34px;
+		}
+
+		/* Hide default HTML checkbox */
+		.switch input {
+		  opacity: 0;
+		  width: 0;
+		  height: 0;
+		}
+
+		/* The slider */
+		.slider {
+		  position: absolute;
+		  cursor: pointer;
+		  top: 0;
+		  left: 0;
+		  right: 0;
+		  bottom: 0;
+		  background-color: #ccc;
+		  -webkit-transition: .4s;
+		  transition: .4s;
+		}
+
+		.slider:before {
+		  position: absolute;
+		  content: "";
+		  height: 26px;
+		  width: 26px;
+		  left: 4px;
+		  bottom: 4px;
+		  background-color: white;
+		  -webkit-transition: .4s;
+		  transition: .4s;
+		}
+
+		input:checked + .slider {
+		  background-color: #2196F3;
+		}
+
+		input:focus + .slider {
+		  box-shadow: 0 0 1px #2196F3;
+		}
+
+		input:checked + .slider:before {
+		  -webkit-transform: translateX(26px);
+		  -ms-transform: translateX(26px);
+		  transform: translateX(26px);
+		}
+
+		/* Rounded sliders */
+		.slider.round {
+		  border-radius: 34px;
+		}
+
+		.slider.round:before {
+		  border-radius: 50%;
+		} 
 </style>
 	<div id=mapMenuButton></div>
 	<div id=mapMenuContainer>
@@ -464,7 +577,7 @@ unused functions */
 		<form id="mapViewForm">
 		  <label for="xCoord">x</label><br>
 		  <input type="number" step="0.01" id="xCoordinateInput" name="xCoord" autocomplete="off"><br>
-		  <label for="lname">y</label><br>
+		  <label for="yCoord">y</label><br>
 		  <input type="number" step="0.01" id="yCoordinateInput" name="yCoord" autocomplete="off"><br>
 		  <label for="zoom">zoom</label><br>
 		  <input type="number" step="0.01" id="zoomInput" name="zoom" autocomplete="off">
@@ -472,6 +585,12 @@ unused functions */
 		<h3>Map View</h3>
 		<button id="setMapViewButton">Set</button>
 		<button id="lockMapViewButton" class='unlocked'>Lock</button>
+		<div id='styleTogglesContainer'>
+			<label class="switch">
+			  <input type="checkbox" id='nycCityCouncilDistrictsLineLayerToggle'>
+			  <span class="slider round"></span>
+			</label>
+		</div>
 	</div>
 	<div id="crosshairX"></div>
 	<div id="crosshairY"></div>
