@@ -1,0 +1,156 @@
+body {
+	margin: 0px;
+	padding: 0;
+	width:  100vw;
+	height:  100vh;
+
+}
+#map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: calc(100% - 10px);
+	height:  calc(100% - 10px);
+	border: 5px solid red;
+}
+#info {
+	display: table;
+	margin: 0px auto;
+	word-wrap: anywhere;
+	white-space: pre-wrap;
+	padding: 10px;
+	border: none;
+	border-radius: 3px;
+	font-size: 12px;
+	text-align: center;
+	color: #222;
+	background: #fff;
+	opacity: 0.5;
+}
+#crosshairX, #crosshairY {
+	position: absolute; 
+	background:  red;
+
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+#crosshairX {
+	width: 3px;
+	height:  50px;
+}
+#crosshairY {
+	width: 50px;
+	height:  3px;
+}
+#lockMapView {
+	position: flex;
+	border-radius: 3px;	
+}
+#centerInput {
+	position: relative;
+	width:  100%;
+}
+#styleTogglesContainer {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-content: center;
+}
+#mapMenuContainer {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-content: center;
+	width:  30vw;
+	height: calc(100vh - 100px);
+	background:  white;
+	margin-left:  -30vw;
+	margin-top:  50px;
+	margin-bottom: 50px;
+	border-radius: 10px;
+	box-shadow: 0 0 50px -25px black;
+	overflow-y: scroll;
+}
+#mapMenuContainer.open {
+	margin-left:  0vw;
+}
+#mapMenuButton {
+	position: absolute;
+	width:  50px;
+	height:  50px;
+	background-image:  url('mapUI/more_horiz_white_24dp.svg');
+	background-repeat: no-repeat;
+}
+#mapMenuButton, #mapMenuContainer, #crosshairX, #crosshairY   {
+	z-index: 1;
+}
+button, form, #styleTogglesContainer {
+	margin: 1vw 5vw;
+}
+
+ /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider {
+  border-radius: 34px;
+}
+
+.slider:before {
+  border-radius: 50%;
+} 
