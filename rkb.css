@@ -51,12 +51,20 @@ body {
 	position: relative;
 	width:  100%;
 }
-#styleTogglesContainer {
+#mapStyleSwitchesContainer {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-content: center;
+}
+.mapStyleSwitchContainer {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
 	align-content: center;
+	margin-top:  1vh;
 }
 #mapMenuContainer {
 	position: absolute;
@@ -88,10 +96,12 @@ body {
 #mapMenuButton, #mapMenuContainer, #crosshairX, #crosshairY   {
 	z-index: 1;
 }
-button, form, #styleTogglesContainer {
+button, form, #mapStyleSwitchesContainer {
 	margin: 1vw 5vw;
 }
-
+.sliderLabel {
+	margin-left: 1vw;
+}
  /* The switch - the box around the slider */
 .switch {
   position: relative;

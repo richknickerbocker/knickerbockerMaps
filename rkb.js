@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(event) {
 	createMap();
 	toggleMapControlsMenu();
+	getMapData(map);
 });
 
 function toggleMapControlsMenu(){
@@ -32,7 +33,7 @@ function mapIsLoaded(map){
 		displayMapMetadata(map);
 		lockMapView(map);
 		setMapView(map);
-		getMapData(map);
+		
 	});
 }
 
@@ -128,11 +129,117 @@ document.getElementById("setMapViewButton").onclick = function(){
 
 };
 
-function getMapData(map){
+function getMapData(){
 
-nycNeighborhoodsPediacities
-nycCityCouncilDistricts
-nycCommunityBoardDistricts
+	var darkColor = '#000000';
+	var lightColor = '';
+	var cueColor = '#ff0000';
+
+	//var mapStylesEnabled;
+	var mapStyleSwitchLDM = document.getElementById('switchLightDarkMode');
+	//var mapStyleStateLDM;
+
+
+	var mapStyles = 
+		{
+			"lightMode" : [
+				{"water" : {"color" : "#000000", "opacity" : 1}},
+				{"land" : {"color" : "#ffffff", "opacity" : 1}}
+			],
+			"darkMode" : [
+				{"water" : {"color" : "#ffffff", "opacity" : 1}},
+				{"land" : {"color" : "#000000", "opacity" : 1}}
+			]
+		}
+
+	var mapStyle;
+
+	mapStyleSwitchLDM.onclick = function(){
+		mapStyle = mapStyles.darkMode;
+		console.log(mapStyle);
+	};
+
+	
+
+	/*var mapStyles = {
+			{'water' : {'color', waterColor}},
+			{'land' : {'color', landColor}},
+			{'road-primary' : {'color', roadColor}},
+			{'road-secondary-tertiary' : {'color', roadColor}},
+			{'road-street' : {'color', roadColor}},
+			{'road-minor' : {'color', roadColor}},
+			{'road-primary' : {'color', roadColor}}
+		};*/
+
+
+
+	/*				{'water' : {'color', waterColor}},
+			{'land' : {'color', landColor}},
+			{'road-primary' : {'color', roadColor}},
+			{'road-secondary-tertiary' : {'color', roadColor}},
+			{'road-street' : {'color', roadColor}},
+			{'road-minor' : {'color', roadColor}},
+			{'road-primary' : {'color', roadColor}}
+	*/
+
+		/*if(this.checked == true){
+			mapStylesEnabled = mapStyles[0];
+			console.log(mapStylesEnabled);
+		} else {
+			console.log(false);
+		}*/
+	}
+
+
+
+
+	/*var i=0;
+	
+	for(let i=0; i < styles.length; i++){
+
+
+
+		//map.setPaintProperty(mapLayers[i].id, mapLayers[i].id.layerProprties[i].property, style);
+		//map.setPaintProperty('nycCityCouncilDistrictsLineLayer','line-width', ["match",["get", "coun_dist"],["11"],10,1]);
+
+	}*/
+	
+
+	
+/*
+	var switchIDs = {
+
+	}
+
+	var white = '#ff0000';
+
+	var colors = {
+		'black' : '#000000',
+		'white' : '#ffffff',
+		'red'	: '#ff0000'
+	}
+
+	var layers = [
+		'water',
+		'land'
+	]
+
+	var layerProperties = [
+		'fill' : ['fill-color', 'line-width']
+		'line' : ['line-color',]
+	]
+
+
+
+
+
+	LayerSwitch.onclick = function(){
+		if(LayerSwitch.onclick.checked == true ) {
+			map.setPaintProperty(layer.layerId,layerProperties.property, );
+		} else {
+			map.setPaintProperty(layer.layerId,layerProperties.property,'line-width', styles.style);
+		}
+	}
 
 map.addSource('nycCityCouncilDistrictsSource', {
 	'type': 'geojson',
@@ -184,11 +291,17 @@ map.addLayer({
 		}
 });
 
-var nycCityCouncilDistrictsLineLayerToggle = document.getElementById("nycCityCouncilDistrictsLineLayerToggle");
+var primaryRoads = map.getLayer('road-primary');
+console.log(primaryRoads)
 
-nycCityCouncilDistrictsLineLayerToggle.onclick = function(){
+var nycCityCouncilDistrictsLineLayerSwitch = document.getElementById("nycCityCouncilDistrictsLineLayerToggle");
+var nycCommunityBoardDistrictsLineLayerSwitch = document.getElementById("nycCommunityBoardDistrictsLineLayerToggle");
+var nycNeighborhoodsPediacitiesLineLayerSwitch = document.getElementById("nycNeighborhoodsPediacitiesLineLayerToggle");
 
-		if(nycCityCouncilDistrictsLineLayerToggle.checked == true ) {
+
+nycCityCouncilDistrictsLineLayerSwitch.onclick = function(){
+
+		if(nycCityCouncilDistrictsLineLayerSwitch.checked == true ) {
 			map.setPaintProperty('nycCityCouncilDistrictsLineLayer','line-width', ["match",["get", "coun_dist"],["11"],10,1]);
 		} else {
 			map.setPaintProperty('nycCityCouncilDistrictsLineLayer','line-width', ["match",["get", "coun_dist"],["11"],1,1]);
@@ -201,4 +314,4 @@ map.setPaintProperty('nycCommunityBoardDistrictsLineLayer','line-width', ["match
 
 map.setPaintProperty('nycNeighborhoodsPediacitiesLineLayer','line-width', ["match",["get", "neighborhood"],["Spuyten Duyvil"],10,1]);	
 
-};
+};*/
