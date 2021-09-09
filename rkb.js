@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(event) {
 	createMap();
 	toggleMapControlsMenu();
-	getMapData(map);
+
 });
 
 function toggleMapControlsMenu(){
@@ -33,7 +33,7 @@ function mapIsLoaded(map){
 		displayMapMetadata(map);
 		lockMapView(map);
 		setMapView(map);
-		
+		getMapData(map);
 	});
 }
 
@@ -129,11 +129,14 @@ document.getElementById("setMapViewButton").onclick = function(){
 
 };
 
-function getMapData(){
+function getMapData(map){
+
+	var map = map;
 
 	var darkColor = '#000000';
 	var lightColor = '';
 	var cueColor = '#ff0000';
+	var roadColor = '#ff0000';
 
 	//var mapStylesEnabled;
 	var mapStyleSwitchLDM = document.getElementById('switchLightDarkMode');
@@ -143,67 +146,50 @@ function getMapData(){
 	var mapStyles = 
 		{
 			"lightMode" : [
-				{"water" : {"color" : "#000000", "opacity" : 1}},
-				{"land" : {"color" : "#ffffff", "opacity" : 1}}
+				{"layerId" : "water", "property" : "fill-color", "value" : "#000000"},
+				{"layerId" : "land", "property" : "fill-color", "value" : "#ffffff"}
 			],
 			"darkMode" : [
-				{"water" : {"color" : "#ffffff", "opacity" : 1}},
-				{"land" : {"color" : "#000000", "opacity" : 1}}
+				{"layerId" : "water", "property" : "fill-color", "value" : "#ffffff"},
+				{"layerId" : "land", "property" : "fill-color", "value" : "#000000"}
+			],
+			"streetMode" : [
+				{"road-primary" : {"color" : roadColor}},
+				{"road-secondary-tertiary" : {"color" : roadColor}},
+				{"road-street" : {"color" : roadColor}},
+				{"road-minor" : {"color" : roadColor}},
+				{"road-primary" : {"color" : roadColor}}
 			]
 		}
 
 	var mapStyle;
 
 	mapStyleSwitchLDM.onclick = function(){
-		mapStyle = mapStyles.darkMode;
-		console.log(mapStyle);
+		if(this.checked == true){
+			mapStyle = mapStyles.darkMode;
+			console.log(mapStyle)
+			mapStyle.forEach(function(style){
+			console.log(style.layerId)
+			console.log(style.property)
+			console.log(style.value)
+				map.setPaintProperty(style.layerId, style.property, style.value);
+			});
+		}
+		else {
+			mapStyle = mapStyles.lightMode;
+			console.log(mapStyle)
+			mapStyle.forEach(function(){
+				map.setPaintProperty(style.layerId, style.property, style.value);
+			});				
+		}
 	};
 
-	
 
-	/*var mapStyles = {
-			{'water' : {'color', waterColor}},
-			{'land' : {'color', landColor}},
-			{'road-primary' : {'color', roadColor}},
-			{'road-secondary-tertiary' : {'color', roadColor}},
-			{'road-street' : {'color', roadColor}},
-			{'road-minor' : {'color', roadColor}},
-			{'road-primary' : {'color', roadColor}}
-		};*/
-
-
-
-	/*				{'water' : {'color', waterColor}},
-			{'land' : {'color', landColor}},
-			{'road-primary' : {'color', roadColor}},
-			{'road-secondary-tertiary' : {'color', roadColor}},
-			{'road-street' : {'color', roadColor}},
-			{'road-minor' : {'color', roadColor}},
-			{'road-primary' : {'color', roadColor}}
-	*/
-
-		/*if(this.checked == true){
-			mapStylesEnabled = mapStyles[0];
-			console.log(mapStylesEnabled);
-		} else {
-			console.log(false);
-		}*/
-	}
-
-
-
-
-	/*var i=0;
-	
-	for(let i=0; i < styles.length; i++){
-
-
-
-		//map.setPaintProperty(mapLayers[i].id, mapLayers[i].id.layerProprties[i].property, style);
-		//map.setPaintProperty('nycCityCouncilDistrictsLineLayer','line-width', ["match",["get", "coun_dist"],["11"],10,1]);
-
+	/*for(let i=0; i < styles.length; i++){
+		map.setPaintProperty(mapLayers[i].id, mapLayers[i].id.layerProprties[i].property, style);
+		map.setPaintProperty('nycCityCouncilDistrictsLineLayer','line-width', ["match",["get", "coun_dist"],["11"],10,1]);
 	}*/
-	
+};
 
 	
 /*
