@@ -29,11 +29,11 @@ function mapIsLoaded(map){
 	var map = map;
 	map.once('idle', function(){
 		configureUserInteractions(map);
-		//addDataToMap(map);
 		displayMapMetadata(map);
 		lockMapView(map);
 		setMapView(map);
 		getMapData(map);
+		addMapSources(map);
 	});
 }
 
@@ -129,6 +129,34 @@ document.getElementById("setMapViewButton").onclick = function(){
 
 };
 
+function addMapSources(map){
+
+	var sourceProperties = [
+		{"sourceId" : "cityCouncilDistrictsSource", "layerId" : "cityCouncilDistrictsLayer", "dataVariable" : nycCityCouncilDistricts},
+		{"sourceId" : "communityBoardDistrictsSource", "layerId" : "communityBoardDistrictsLayer", "dataVariable" : nycCommunityBoardDistricts},
+		{"sourceId" : "neighborhoodsPediacitiesSource", "layerId" : "neighborhoodsPediacitiesLayer", "dataVariable" : nycCommunityBoardDistricts}
+	]
+
+	sourceProperties.forEach(function(source){
+		map.addSource(source.sourceId, {
+			'type': 'geojson',
+			'generateId' : true,	
+			'data': source.dataVariable
+		});
+		map.addLayer({
+			'id': source.layerId,
+			'type': 'line',
+			'source': source.sourceId,
+			'layout' : {
+				'visibility' : 'visible'
+			},
+			'paint': {
+				'line-color': '#ff0000'
+				}
+		});
+	});
+};
+
 function getMapData(map){
 
 	var map = map;
@@ -147,11 +175,11 @@ function getMapData(map){
 		{
 			"lightMode" : [
 				{"layerId" : "water", "property" : "fill-color", "value" : "#000000"},
-				{"layerId" : "land", "property" : "fill-color", "value" : "#ffffff"}
+				{"layerId" : "land", "property" : "background-color", "value" : "#ffffff"}
 			],
 			"darkMode" : [
 				{"layerId" : "water", "property" : "fill-color", "value" : "#ffffff"},
-				{"layerId" : "land", "property" : "fill-color", "value" : "#000000"}
+				{"layerId" : "land", "property" : "background-color", "value" : "#000000"}
 			],
 			"streetMode" : [
 				{"road-primary" : {"color" : roadColor}},
@@ -167,20 +195,15 @@ function getMapData(map){
 	mapStyleSwitchLDM.onclick = function(){
 		if(this.checked == true){
 			mapStyle = mapStyles.darkMode;
-			console.log(mapStyle)
 			mapStyle.forEach(function(style){
-			console.log(style.layerId)
-			console.log(style.property)
-			console.log(style.value)
 				map.setPaintProperty(style.layerId, style.property, style.value);
 			});
-		}
+		}	
 		else {
 			mapStyle = mapStyles.lightMode;
-			console.log(mapStyle)
-			mapStyle.forEach(function(){
+			mapStyle.forEach(function(style){
 				map.setPaintProperty(style.layerId, style.property, style.value);
-			});				
+			});	
 		}
 	};
 
@@ -227,21 +250,7 @@ function getMapData(map){
 		}
 	}
 
-map.addSource('nycCityCouncilDistrictsSource', {
-	'type': 'geojson',
-	'generateId' : true,
-	'data': nycCityCouncilDistricts
-});
-map.addSource('nycCommunityBoardDistrictsSource', {
-	'type': 'geojson',
-	'generateId' : true,
-	'data': nycCommunityBoardDistricts
-});
-map.addSource('nycNeighborhoodsPediacitiesSource', {
-	'type': 'geojson',
-	'generateId' : true,
-	'data': nycNeighborhoodsPediacities
-});
+
 
 map.addLayer({
 	'id': 'nycCityCouncilDistrictsLineLayer',
