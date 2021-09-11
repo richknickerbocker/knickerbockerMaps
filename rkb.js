@@ -32,8 +32,7 @@ function mapIsLoaded(map){
 		displayMapMetadata(map);
 		lockMapView(map);
 		setMapView(map);
-		getMapData(map);
-		addMapSources(map);
+		addSourcesToMap(map);
 	});
 }
 
@@ -129,12 +128,24 @@ document.getElementById("setMapViewButton").onclick = function(){
 
 };
 
-function addMapSources(map){
+function addSourcesToMap(map){
 
 	var sourceProperties = [
-		{"sourceId" : "cityCouncilDistrictsSource", "layerId" : "cityCouncilDistrictsLayer", "dataVariable" : nycCityCouncilDistricts},
-		{"sourceId" : "communityBoardDistrictsSource", "layerId" : "communityBoardDistrictsLayer", "dataVariable" : nycCommunityBoardDistricts},
-		{"sourceId" : "neighborhoodsPediacitiesSource", "layerId" : "neighborhoodsPediacitiesLayer", "dataVariable" : nycCommunityBoardDistricts}
+		{
+			"sourceId" : "cityCouncilDistrictsSource",
+			"layerId" : "cityCouncilDistrictsLayer",
+			"dataVariable" : nycCityCouncilDistricts
+		},
+		{
+			"sourceId" : "communityBoardDistrictsSource",
+			"layerId" : "communityBoardDistrictsLayer",
+			"dataVariable" : nycCommunityBoardDistricts
+		},
+		{
+			"sourceId" : "neighborhoodsPediacitiesSource",
+			"layerId" : "neighborhoodsPediacitiesLayer",
+			"dataVariable" : nycCommunityBoardDistricts
+		}
 	]
 
 	sourceProperties.forEach(function(source){
@@ -143,10 +154,38 @@ function addMapSources(map){
 			'generateId' : true,	
 			'data': source.dataVariable
 		});
+	});
+
+	addLayersToMap(map, sourceProperties);
+};
+
+
+function addLayersToMap(map, sourceProperties){
+
+	var map = map;
+	var sourceProperties = sourceProperties;
+
+	var layerProperties = [
+		{
+			"layerId" : "cityCouncilDistrictsLayer",
+			"sourceId" : "cityCouncilDistrictsSource"
+
+		},
+		{
+			"layerId" : "communityBoardDistrictsLayer",
+			"sourceId" : "communityBoardDistrictsSource"
+		},
+		{
+			"layerId" : "neighborhoodsPediacitiesLayer",
+			"sourceId" : "neighborhoodsPediacitiesSource"
+		}
+	]
+
+	layerProperties.forEach(function(layer){
 		map.addLayer({
-			'id': source.layerId,
+			'id': layer.layerId,
 			'type': 'line',
-			'source': source.sourceId,
+			'source': layer.sourceId,
 			'layout' : {
 				'visibility' : 'visible'
 			},
@@ -155,6 +194,98 @@ function addMapSources(map){
 				}
 		});
 	});
+
+	createLayerSwitches(map);
+};
+
+
+function createLayerSwitches(map){
+
+	var map = map;
+
+	var layerModes = [
+		{
+			"switchId" : "switchLightDarkMode",
+			"switchLabel" : "Light Dark Mode"
+		},
+		{
+			"switchId" : "cityCouncilDistrictsSwitch",
+			"switchLabel" : "City Council Districts",
+			"layerId" : "cityCouncilDistrictsLayer",
+			"paintMode" : ""
+
+		},
+		{
+			"switchId" : "communityBoardSwitch",
+			"switchLabel" : "Community Board Districts",
+			"layerId" : "communityBoardDistrictsLayer",
+			"paintMode" : ""
+
+		},
+		{
+			"switchId" : "neighborhoodsPediacitiesSwitch",
+			"switchLabel" : "Neighborhood Boundaries",
+			"layerId" : "neighborhoodsPediacitiesLayer",
+			"paintMode" : ""
+
+		}
+	];
+
+	var layerSwitchesContainer = document.getElementById('layerSwitchesContainer');
+
+	layerModes.forEach(function(layerMode){
+
+		var divElem = document.createElement('div')
+		var labelElem = document.createElement('label');
+		var inputElem = document.createElement('input');
+		var spanSliderElem = document.createElement('span');
+		var spanLabelElem = document.createElement('span');
+		
+		divElem.setAttribute('class','layerSwitch');
+		labelElem.setAttribute('class','switch');
+		inputElem.setAttribute('type', 'checkbox');
+		inputElem.setAttribute('id', layerMode.switchId);
+		spanSliderElem.setAttribute('class','slider');
+		spanLabelElem.setAttribute('class', 'slideLabel');
+
+		var switchLabelElem = spanLabelElem.innerHTML = layerMode.switchLabel
+
+		layerSwitchesContainer.append(divElem);
+		divElem.append(labelElem);
+		labelElem.append(inputElem);
+		labelElem.append(spanSliderElem);
+		divElem.append(switchLabelElem);
+	});
+
+	getMapData(map);
+};
+
+
+
+
+function listenForSwitch(){
+	var switchElement = document.getElementById('communityBoardsSwitch');
+
+	switchElement.onclick(function(){
+		toggleLayer();
+	});
+};
+
+function toggleLayer(){
+
+	var visibility = map.getLayoutProperty(layerId, 'visibility');
+
+	if (visibility === 'visible') {
+		map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+		this.className = '';
+	} else {
+		this.className = 'active';
+		map.setLayoutProperty(
+			clickedLayer,
+			'visibility',
+			'visible'
+		);
+	}
 };
 
 function getMapData(map){

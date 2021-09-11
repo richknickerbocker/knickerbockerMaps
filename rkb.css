@@ -51,14 +51,14 @@ body {
 	position: relative;
 	width:  100%;
 }
-#mapStyleSwitchesContainer {
+#layerSwitchesContainer {
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
 	align-content: center;
 }
-.mapStyleSwitchContainer {
+.layerSwitch {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
@@ -96,7 +96,7 @@ body {
 #mapMenuButton, #mapMenuContainer, #crosshairX, #crosshairY   {
 	z-index: 1;
 }
-button, form, #mapStyleSwitchesContainer {
+button, form, #layerSwitchesContainer {
 	margin: 1vw 5vw;
 }
 .sliderLabel {
