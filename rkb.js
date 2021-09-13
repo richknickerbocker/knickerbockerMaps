@@ -241,8 +241,9 @@ function createLayerSwitches(map){
 		var spanSliderElem = document.createElement('span');
 		var spanLabelElem = document.createElement('span');
 		
-		divElem.setAttribute('class','layerSwitch');
+		divElem.setAttribute('class','layerSwitchContainer');
 		labelElem.setAttribute('class','switch');
+		inputElem.setAttribute('class', 'layerSwitch');
 		inputElem.setAttribute('type', 'checkbox');
 		inputElem.setAttribute('id', layerMode.switchId);
 		spanSliderElem.setAttribute('class','slider');
@@ -257,35 +258,57 @@ function createLayerSwitches(map){
 		divElem.append(switchLabelElem);
 	});
 
-	getMapData(map);
+	routeLayerSwitches(map, layerModes);
 };
 
 
 
 
-function listenForSwitch(){
-	var switchElement = document.getElementById('communityBoardsSwitch');
+function routeLayerSwitches(map, layerModes){
 
-	switchElement.onclick(function(){
-		toggleLayer();
-	});
+	var layerModes = layerModes;
+	var map = map;
+
+	var switchElements = document.getElementsByClassName('layerSwitch');
+
+
+	for (let switchElement of switchElements) {
+    	switchElement.addEventListener('click', function(){
+
+			function isLayerMode(layerMode) {
+		  		return layerMode.switchId === switchElement.id;
+			}
+
+			var layerId = layerModes.find(isLayerMode).layerId;
+			console.log(layerId);
+
+			toggleLayer(map, layerId);
+
+    	});
+	}
+
 };
 
-function toggleLayer(){
+function toggleLayer(map, layerId){
 
-	var visibility = map.getLayoutProperty(layerId, 'visibility');
+	var map = map;
 
+	var layerId = layerId;
+
+	map.setLayoutProperty(layerId, 'visibility', 'none');
+
+	/*	var visibility = map.getLayoutProperty(layerId, 'visibility');
 	if (visibility === 'visible') {
-		map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+		map.setLayoutProperty(layerId, 'visibility', 'none');
 		this.className = '';
 	} else {
 		this.className = 'active';
 		map.setLayoutProperty(
-			clickedLayer,
+			layerId,
 			'visibility',
 			'visible'
 		);
-	}
+	}*/
 };
 
 function getMapData(map){
