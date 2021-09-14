@@ -282,22 +282,20 @@ function routeLayerSwitches(map, layerModes){
 			var layerId = layerModes.find(isLayerMode).layerId;
 			console.log(layerId);
 
-			toggleLayer(map, layerId);
+			toggleLayerVisibility(map, layerId);
+			setLayerPaintProperty(map, layerId);
 
     	});
 	}
 
 };
 
-function toggleLayer(map, layerId){
+function toggleLayerVisibility(map, layerId){
 
 	var map = map;
-
 	var layerId = layerId;
+	var visibility = map.getLayoutProperty(layerId, 'visibility');
 
-	map.setLayoutProperty(layerId, 'visibility', 'none');
-
-	/*	var visibility = map.getLayoutProperty(layerId, 'visibility');
 	if (visibility === 'visible') {
 		map.setLayoutProperty(layerId, 'visibility', 'none');
 		this.className = '';
@@ -308,10 +306,10 @@ function toggleLayer(map, layerId){
 			'visibility',
 			'visible'
 		);
-	}*/
+	}
 };
 
-function getMapData(map){
+function setLayerPaintProperty(map){
 
 	var map = map;
 
