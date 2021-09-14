@@ -130,24 +130,6 @@ document.getElementById("setMapViewButton").onclick = function(){
 
 function addSourcesToMap(map){
 
-	var sourceProperties = [
-		{
-			"sourceId" : "cityCouncilDistrictsSource",
-			"layerId" : "cityCouncilDistrictsLayer",
-			"dataVariable" : nycCityCouncilDistricts
-		},
-		{
-			"sourceId" : "communityBoardDistrictsSource",
-			"layerId" : "communityBoardDistrictsLayer",
-			"dataVariable" : nycCommunityBoardDistricts
-		},
-		{
-			"sourceId" : "neighborhoodsPediacitiesSource",
-			"layerId" : "neighborhoodsPediacitiesLayer",
-			"dataVariable" : nycCommunityBoardDistricts
-		}
-	]
-
 	sourceProperties.forEach(function(source){
 		map.addSource(source.sourceId, {
 			'type': 'geojson',
@@ -156,35 +138,18 @@ function addSourcesToMap(map){
 		});
 	});
 
-	addLayersToMap(map, sourceProperties);
+	addLayersToMap(map);
 };
 
 
-function addLayersToMap(map, sourceProperties){
+function addLayersToMap(map){
 
 	var map = map;
-	var sourceProperties = sourceProperties;
-
-	var layerProperties = [
-		{
-			"layerId" : "cityCouncilDistrictsLayer",
-			"sourceId" : "cityCouncilDistrictsSource"
-
-		},
-		{
-			"layerId" : "communityBoardDistrictsLayer",
-			"sourceId" : "communityBoardDistrictsSource"
-		},
-		{
-			"layerId" : "neighborhoodsPediacitiesLayer",
-			"sourceId" : "neighborhoodsPediacitiesSource"
-		}
-	]
 
 	layerProperties.forEach(function(layer){
 		map.addLayer({
 			'id': layer.layerId,
-			'type': 'line',
+			'type': layer.layerType,
 			'source': layer.sourceId,
 			'layout' : {
 				'visibility' : 'visible'
@@ -202,34 +167,6 @@ function addLayersToMap(map, sourceProperties){
 function createLayerSwitches(map){
 
 	var map = map;
-
-	var layerModes = [
-		{
-			"switchId" : "switchLightDarkMode",
-			"switchLabel" : "Light Dark Mode"
-		},
-		{
-			"switchId" : "cityCouncilDistrictsSwitch",
-			"switchLabel" : "City Council Districts",
-			"layerId" : "cityCouncilDistrictsLayer",
-			"paintMode" : ""
-
-		},
-		{
-			"switchId" : "communityBoardSwitch",
-			"switchLabel" : "Community Board Districts",
-			"layerId" : "communityBoardDistrictsLayer",
-			"paintMode" : ""
-
-		},
-		{
-			"switchId" : "neighborhoodsPediacitiesSwitch",
-			"switchLabel" : "Neighborhood Boundaries",
-			"layerId" : "neighborhoodsPediacitiesLayer",
-			"paintMode" : ""
-
-		}
-	];
 
 	var layerSwitchesContainer = document.getElementById('layerSwitchesContainer');
 
@@ -258,18 +195,17 @@ function createLayerSwitches(map){
 		divElem.append(switchLabelElem);
 	});
 
-	routeLayerSwitches(map, layerModes);
+	listenForLayerSwitches(map);
 };
 
 
 
 
-function routeLayerSwitches(map, layerModes){
-
-	var layerModes = layerModes;
+function listenForLayerSwitches(map){
 	var map = map;
 
 	var switchElements = document.getElementsByClassName('layerSwitch');
+	var switchedLayerMode;
 
 
 	for (let switchElement of switchElements) {
@@ -279,16 +215,30 @@ function routeLayerSwitches(map, layerModes){
 		  		return layerMode.switchId === switchElement.id;
 			}
 
-			var layerId = layerModes.find(isLayerMode).layerId;
-			console.log(layerId);
-
-			toggleLayerVisibility(map, layerId);
-			setLayerPaintProperty(map, layerId);
-
+			switchedLayerMode = layerModes.find(isLayerMode);
+			routeLayerSwitches(map, switchedLayerMode);
     	});
 	}
 
 };
+
+
+function routeLayerSwitches(map, switchedLayerMode){
+
+	var map = map;
+	var switchedLayerMode = switchedLayerMode;
+	var layerId = switchedLayerMode.layerId;
+
+	console.log(switchedLayerMode);
+
+	if(switchedLayerMode.switchType != undefined && switchedLayerMode.switchType == 'visibility') {
+		toggleLayerVisibility(map, layerId);
+	} else {
+		console.log('other')
+	}
+
+};
+
 
 function toggleLayerVisibility(map, layerId){
 
@@ -313,34 +263,9 @@ function setLayerPaintProperty(map){
 
 	var map = map;
 
-	var darkColor = '#000000';
-	var lightColor = '';
-	var cueColor = '#ff0000';
-	var roadColor = '#ff0000';
-
 	//var mapStylesEnabled;
 	var mapStyleSwitchLDM = document.getElementById('switchLightDarkMode');
 	//var mapStyleStateLDM;
-
-
-	var mapStyles = 
-		{
-			"lightMode" : [
-				{"layerId" : "water", "property" : "fill-color", "value" : "#000000"},
-				{"layerId" : "land", "property" : "background-color", "value" : "#ffffff"}
-			],
-			"darkMode" : [
-				{"layerId" : "water", "property" : "fill-color", "value" : "#ffffff"},
-				{"layerId" : "land", "property" : "background-color", "value" : "#000000"}
-			],
-			"streetMode" : [
-				{"road-primary" : {"color" : roadColor}},
-				{"road-secondary-tertiary" : {"color" : roadColor}},
-				{"road-street" : {"color" : roadColor}},
-				{"road-minor" : {"color" : roadColor}},
-				{"road-primary" : {"color" : roadColor}}
-			]
-		}
 
 	var mapStyle;
 
