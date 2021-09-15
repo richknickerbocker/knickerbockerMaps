@@ -39,15 +39,15 @@ var layerProperties = [
 var layerModes = [
 	{
 		"switchId" : "switchLightDarkMode",
-		"switchLabel" : "Light Dark Mode"
-		"paintMode" : ""
+		"switchLabel" : "Light Dark Mode",
+		"layerStyle" : ""
 	},
 	{
 		"switchId" : "cityCouncilDistrictsSwitch",
 		"switchLabel" : "City Council Districts",
 		"switchType" : "visibility",
 		"layerId" : "cityCouncilDistrictsLayer",
-		"paintMode" : ""
+		"layerStyle" : "emphasizeBoundary"
 
 	},
 	{
@@ -55,7 +55,7 @@ var layerModes = [
 		"switchLabel" : "Community Board Districts",
 		"switchType" : "visibility",
 		"layerId" : "communityBoardDistrictsLayer",
-		"paintMode" : ""
+		"layerStyle" : "emphasizeBoundary"
 
 	},
 	{
@@ -63,7 +63,7 @@ var layerModes = [
 		"switchLabel" : "Neighborhood Boundaries",
 		"switchType" : "visibility",
 		"layerId" : "neighborhoodsPediacitiesLayer",
-		"paintMode" : ""
+		"layerStyle" : "emphasizeBoundary"
 
 	}
 ];
@@ -72,15 +72,19 @@ var layerModes = [
 	var cueColor = '#ff0000';
 	var roadColor = '#ff0000';
 
-var mapStyles = 
+var layerStyles = 
 	{
 		"lightMode" : [
-			{"layerId" : "water", "property" : "fill-color", "value" : "#000000"},
-			{"layerId" : "land", "property" : "background-color", "value" : "#ffffff"}
+			{"layerId" : "water", "property" : "fill-color", "propertyType" : "paint", "value" : "#000000"},
+			{"layerId" : "land", "property" : "background-color", "propertyType" : "paint", "value" : "#ffffff"}
 		],
 		"darkMode" : [
-			{"layerId" : "water", "property" : "fill-color", "value" : "#ffffff"},
-			{"layerId" : "land", "property" : "background-color", "value" : "#000000"}
+			{"layerId" : "water", "property" : "fill-color", "propertyType" : "paint", "value" : "#ffffff"},
+			{"layerId" : "land", "property" : "background-color", "propertyType" : "paint", "value" : "#000000"}
+		],
+		"emphasizeBoundary" : [
+			{"property" : "line-color", "propertyType" : "paint", "value" : "#ff0000"},
+			{"property" : "line-width", "propertyType" : "paint", "value" : 10}
 		],
 		"streetMode" : [
 			{"road-primary" : {"color" : roadColor}},

@@ -58,7 +58,7 @@ body {
 	justify-content: flex-start;
 	align-content: center;
 }
-.layerSwitch {
+.layerSwitchContainer {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;

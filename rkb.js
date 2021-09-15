@@ -216,14 +216,48 @@ function listenForLayerSwitches(map){
 			}
 
 			switchedLayerMode = layerModes.find(isLayerMode);
-			routeLayerSwitches(map, switchedLayerMode);
+			findLayerStyle(map, switchedLayerMode);
     	});
 	}
 
 };
 
 
-function routeLayerSwitches(map, switchedLayerMode){
+function findLayerStyle(map, switchedLayerMode){
+
+	var map = map;
+	var switchedLayerMode = switchedLayerMode;
+	var switchedLayerStyleName = switchedLayerMode.layerStyle;
+	var switchedLayerId = switchedLayerMode.layerId;
+
+	var layerStyleArray = layerStyles[switchedLayerStyleName];
+	console.log(switchedLayerStyleName)
+
+	layerStyleArray.forEach(function(layerStyle){
+
+		var layerStylePropertyType = layerStyle.propertyType;
+		var layerStyleProperty = layerStyle.property;
+		var layerStyleValue = layerStyle.value;
+
+		if(layerStylePropertyType === 'layout') {
+
+			map.setLayoutProperty(switchedLayerId, layerStyleProperty, layerStyleValue);
+
+		} else if (layerStylePropertyType === 'paint'){
+
+			map.setPaintProperty(switchedLayerId, layerStyleProperty, layerStyleValue);
+			console.log(layerStyleValue)
+
+		} else {
+
+			console.log('missing property type');
+
+		}
+	});
+};
+
+
+/*function routeLayerSwitches(map, switchedLayerMode){
 
 	var map = map;
 	var switchedLayerMode = switchedLayerMode;
@@ -237,7 +271,7 @@ function routeLayerSwitches(map, switchedLayerMode){
 		console.log('other')
 	}
 
-};
+};*/
 
 
 function toggleLayerVisibility(map, layerId){
@@ -263,21 +297,21 @@ function setLayerPaintProperty(map){
 
 	var map = map;
 
-	//var mapStylesEnabled;
+	
 	var mapStyleSwitchLDM = document.getElementById('switchLightDarkMode');
-	//var mapStyleStateLDM;
+
 
 	var mapStyle;
 
 	mapStyleSwitchLDM.onclick = function(){
 		if(this.checked == true){
-			mapStyle = mapStyles.darkMode;
+			mapStyle = layerStyles.darkMode;
 			mapStyle.forEach(function(style){
 				map.setPaintProperty(style.layerId, style.property, style.value);
 			});
 		}	
 		else {
-			mapStyle = mapStyles.lightMode;
+			mapStyle = layerStyles.lightMode;
 			mapStyle.forEach(function(style){
 				map.setPaintProperty(style.layerId, style.property, style.value);
 			});	
