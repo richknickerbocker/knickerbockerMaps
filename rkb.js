@@ -209,26 +209,44 @@ function listenForLayerSwitches(map){
 
 
 	for (let switchElement of switchElements) {
-    	switchElement.addEventListener('click', function(){
+    	switchElement.addEventListener('click', function(e){
 
 			function isLayerMode(layerMode) {
 		  		return layerMode.switchId === switchElement.id;
 			}
 
 			switchedLayerMode = layerModes.find(isLayerMode);
-			findLayerStyle(map, switchedLayerMode);
+
+			var switchedLayerId = switchedLayerMode.layerId
+
+			if(this.checked === true){
+				var switchedLayerStyleName = switchedLayerMode.checkedLayerStyle;
+				findLayerStyle(map, switchedLayerId, switchedLayerStyleName);
+				//console.log(switchedLayerMode.checkedLayerStyle);
+
+			} else {
+				var switchedLayerStyleName = switchedLayerMode.uncheckedLayerStyle;
+				findLayerStyle(map, switchedLayerId, switchedLayerStyleName);
+				//console.log(switchedLayerMode.uncheckedLayerStyle);
+			}
+
+
+
+
+
+
+		
     	});
 	}
 
 };
 
 
-function findLayerStyle(map, switchedLayerMode){
+function findLayerStyle(map, switchedLayerId, switchedLayerStyleName){
 
 	var map = map;
-	var switchedLayerMode = switchedLayerMode;
-	var switchedLayerStyleName = switchedLayerMode.layerStyle;
-	var switchedLayerId = switchedLayerMode.layerId;
+	var switchedLayerId = switchedLayerId;
+	var switchedLayerStyleName = switchedLayerStyleName;
 
 	var layerStyleArray = layerStyles[switchedLayerStyleName];
 	console.log(switchedLayerStyleName)

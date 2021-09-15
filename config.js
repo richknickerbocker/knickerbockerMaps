@@ -45,26 +45,38 @@ var layerModes = [
 	{
 		"switchId" : "cityCouncilDistrictsSwitch",
 		"switchLabel" : "City Council Districts",
-		"switchType" : "visibility",
 		"layerId" : "cityCouncilDistrictsLayer",
-		"layerStyle" : "emphasizeBoundary"
+		"uncheckedLayerStyle" : "lineOpaqueStyle",
+		"checkedLayerStyle" : "lineTransparentStyle"
 
 	},
 	{
 		"switchId" : "communityBoardSwitch",
 		"switchLabel" : "Community Board Districts",
-		"switchType" : "visibility",
 		"layerId" : "communityBoardDistrictsLayer",
-		"layerStyle" : "emphasizeBoundary"
+		"uncheckedLayerStyle" : "lineOpaqueStyle",
+		"checkedLayerStyle" : "lineTransparentStyle"
 
 	},
 	{
 		"switchId" : "neighborhoodsPediacitiesSwitch",
 		"switchLabel" : "Neighborhood Boundaries",
-		"switchType" : "visibility",
 		"layerId" : "neighborhoodsPediacitiesLayer",
-		"layerStyle" : "emphasizeBoundary"
-
+		"uncheckedLayerStyle" : "lineOpaqueStyle",
+		"checkedLayerStyle" : "lineTransparentStyle"
+	},
+	{
+		"switchId" : "SatelliteSwitch",
+		"switchLabel" : "Satellite",
+		"layerId" : "satellite",
+		"uncheckedLayerStyle" : "rasterOpaqueStyle",
+		"checkedLayerStyle" : "rasterTransparentStyle"
+	},
+	{
+		"switchId" : "templateSwitch",
+		"switchLabel" : "Template Switch",
+		"layerId" : "templateLayer",
+		"layerStyle" : "templateStyle"
 	}
 ];
 	var darkColor = '#000000';
@@ -74,6 +86,18 @@ var layerModes = [
 
 var layerStyles = 
 	{
+		"rasterOpaqueStyle" : [
+			{"property" : "raster-opacity", "propertyType" : "paint", "value" : 0}
+		],
+		"rasterTransparentStyle" : [
+			{"property" : "raster-opacity", "propertyType" : "paint", "value" : 1}
+		],
+		"lineOpaqueStyle" : [
+			{"property" : "line-opacity", "propertyType" : "paint", "value" : 0}
+		],
+		"lineTransparentStyle" : [
+			{"property" : "line-opacity", "propertyType" : "paint", "value" : 1}
+		],
 		"lightMode" : [
 			{"layerId" : "water", "property" : "fill-color", "propertyType" : "paint", "value" : "#000000"},
 			{"layerId" : "land", "property" : "background-color", "propertyType" : "paint", "value" : "#ffffff"}
