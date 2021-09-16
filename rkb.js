@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", function(event) {
 	createMap();
-	toggleMapControlsMenu();
+	toggleMapControlsMenu(map);
 
 });
 
-function toggleMapControlsMenu(){
+function toggleMapControlsMenu(map){
+	var map = map;
 	var mapMenuButton = document.getElementById("mapMenuButton");
 	var mapMenuContainer = document.getElementById("mapMenuContainer");
 	mapMenuButton.onclick = function(){
@@ -29,6 +30,7 @@ function createMap(){
 
 function mapIsLoaded(map){
 	var map = map;
+	map.addControl(new mapboxgl.NavigationControl());
 	map.once('idle', function(){
 		configureUserInteractions(map);
 		displayMapMetadata(map);
@@ -61,10 +63,16 @@ function displayMapMetadata(map){
 	var mapBounds = map.getBounds();
 	var mapCenterLatitude = mapCenter.lat;
 	var mapCenterLongitude = mapCenter.lng;
+	var mapViewPosition =	'"center" : ' + '[' +mapCenterLongitude + ', ' + mapCenterLatitude + '], ' +
+							'"zoom" : '	+ mapZoom + ', ' +
+							'"pitch" : ' + 0 + ', ' +
+							'"bearing" : ' + mapBearing;
+	var copyMapPositionButton = document.getElementById('copyMapPositionButton');
 
-	console.log(mapBounds);
-	document.getElementById('info').innerHTML = 'CENTER: ' +mapCenterLongitude+', '+mapCenterLatitude+ ' ZOOM: '+mapZoom + ' BEARING: '+mapBearing;
-
+	copyMapPositionButton.onclick = function(){
+		navigator.clipboard.writeText(mapViewPosition);
+	};
+	
 	map.on('move', function(){
 		mapZoom = map.getZoom();
 		mapCenter = map.getCenter();
@@ -72,18 +80,11 @@ function displayMapMetadata(map){
 		mapBounds = map.getBounds();
 		mapCenterLatitude = mapCenter.lat;
 		mapCenterLongitude = mapCenter.lng;
-
-		console.log(mapBounds);
-		document.getElementById('info').innerHTML = 'CENTER: ' +mapCenterLongitude+', '+mapCenterLatitude+ ' ZOOM: '+mapZoom + ' BEARING: '+mapBearing;
+		mapViewPosition =	'"center" : ' + '[' +mapCenterLongitude + ', ' + mapCenterLatitude + '], ' +
+							'"zoom" : '	+ mapZoom + ', ' +
+							'"pitch" : ' + 0 + ', ' +
+							'"bearing" : ' + mapBearing;
 	});
-
-	document.getElementById('autoFillMapViewButton').onclick = function(){
-
-		document.getElementById('xCoordinateInput').value = mapCenterLongitude;
-		document.getElementById('yCoordinateInput').value = mapCenterLatitude;
-		document.getElementById('zoomInput').value = mapZoom;
-	}
-
 }
 
 function lockMapView(map){
@@ -117,7 +118,7 @@ function lockMapView(map){
 };
 
 function setMapView(map){
-
+	var map = map;
 	var mapViewsDropdown = document.getElementById('mapViewsDropdown');
 
 	mapViews.forEach(function(mapView){
@@ -134,38 +135,36 @@ function setMapView(map){
 		if(currentDropdownValue){
 
 			function isMapView(mapView) {
-				console.log(currentDropdownValue);
 				return mapView.mapName === currentDropdownValue;
 			}
 			selectedMapView = mapViews.find(isMapView);
-			console.log(selectedMapView);
+			changeMapView(map, selectedMapView);
 		};
 	};
+};
 
-	/*document.getElementById("setMapViewButton").onclick = function(){
+function changeMapView(map, selectedMapView){
 
-		console.log('flyto');
+	var map = map;
+	var firstSelectedMapView = selectedMapView.views[0];
+	var mapCenter = selectedMapView.views[0].center;
+	var mapZoom = selectedMapView.views[0].zoom;
+	var mapBearing = selectedMapView.views[0].bearing;
+	var mapPitch = selectedMapView.views[0].pitch;
 
-		var xCoordinateInput = parseFloat(document.getElementById('xCoordinateInput').value);
-		
-		var yCoordinateInput = parseFloat(document.getElementById('yCoordinateInput').value);
-		var userInputZoom = parseFloat(document.getElementById('zoomInput').value);
-
-		var userInputCoordinates = [xCoordinateInput,yCoordinateInput];
-		
-		map.flyTo({center: userInputCoordinates, zoom: userInputZoom});
-		map.flyTo({
-			center: [0, 0],
-			zoom: 9,
-			pitch: 0,
-			speed: 0.2,
-			curve: 1,
-			easing(t) {
+	map.flyTo({
+		center: mapCenter,
+		zoom: mapZoom,
+		pitch: mapPitch,
+		bearing: mapBearing,
+		speed: 1.2,
+		curve: 1,
+		easing(t) {
 			return t;
-			}
-		});
+		}
+	});
 
-	}*/
+
 };
 
 

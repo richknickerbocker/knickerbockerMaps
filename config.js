@@ -1,9 +1,10 @@
 var mapViews = [{
 		"mapName": "Riverdale Park Trail",
 		"views": [{
-				"center": [0, 0],
-				"zoom": 9,
-				"pitch": 0
+				"center": [-73.91647723886805, 40.89489149871565],
+				"zoom": 15.150488555069472,
+				"pitch": 0,
+				"bearing" : -73.60000000000072
 			},
 			{
 				"center": [0, 0],
@@ -15,9 +16,25 @@ var mapViews = [{
 	{
 		"mapName": "Spuyten Duyvil",
 		"views": [{
+				"center": [-73.92073480323454, 40.88241506371213],
+				"zoom": 14.673412037291037,
+				"pitch": 0,
+				"bearing" : 0
+			},
+			{
 				"center": [0, 0],
 				"zoom": 9,
 				"pitch": 0
+			}
+		]
+	},
+	{
+		"mapName": "District 11",
+		"views": [{
+				"center" : [-73.89481408304725, 40.889759472658426],
+				"zoom" : 12.69320109863826,
+				"pitch" : 0,
+				"bearing" : 0
 			},
 			{
 				"center": [0, 0],

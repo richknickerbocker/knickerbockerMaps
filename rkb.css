@@ -96,7 +96,7 @@ body {
 #mapMenuButton, #mapMenuContainer, #crosshairX, #crosshairY   {
 	z-index: 1;
 }
-button, form, #layerSwitchesContainer {
+button, form, select, #layerSwitchesContainer {
 	margin: 1vw 5vw;
 }
 .sliderLabel {

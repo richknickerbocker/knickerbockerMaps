@@ -17,25 +17,13 @@
 <body>
 	<div id=mapMenuButton></div>
 	<div id=mapMenuContainer>
-		<pre id="info">Test</pre>
-		<label for="mapViewsDropdown">Map View:</label>
-		<select id="mapViewsDropdown" name="mapViews">
-		  <option value=""></option>
-		</select> 
-		<button id="autoFillMapViewButton" class='unlocked'>Save</button>
-		<form id="mapViewForm">
-		  <label for="xCoord">x</label><br>
-		  <input type="number" step="0.01" id="xCoordinateInput" name="xCoord" autocomplete="off"><br>
-		  <label for="yCoord">y</label><br>
-		  <input type="number" step="0.01" id="yCoordinateInput" name="yCoord" autocomplete="off"><br>
-		  <label for="zoom">zoom</label><br>
-		  <input type="number" step="0.01" id="zoomInput" name="zoom" autocomplete="off">
-		</form>
 		<h3>Map View</h3>
-		<button id="setMapViewButton">Set</button>
-		<button id="lockMapViewButton" class='unlocked'>Lock</button>
-		<div id='layerSwitchesContainer'>
-		</div>
+		<select id="mapViewsDropdown" name="mapViews">
+		  <option value="">Views</option>
+		</select>
+		<button id="lockMapViewButton" class='unlocked'>Lock View</button>
+		<button id="copyMapPositionButton">Copy Data</button>
+		<div id='layerSwitchesContainer'></div>
 	</div>
 	<div id="crosshairX"></div>
 	<div id="crosshairY"></div>
