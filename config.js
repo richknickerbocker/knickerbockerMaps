@@ -1,3 +1,33 @@
+var mapViews = [{
+		"mapName": "Riverdale Park Trail",
+		"views": [{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			},
+			{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			}
+		]
+	},
+	{
+		"mapName": "Spuyten Duyvil",
+		"views": [{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			},
+			{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			}
+		]
+	}
+];
+
 var sourceProperties = [
 	{
 		"sourceId" : "cityCouncilDistrictsSource",

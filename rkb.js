@@ -20,7 +20,9 @@ function createMap(){
         container: 'map',
         style: 'mapbox://styles/joeyazoulai/ckscf1y5c114v17n1ededa4d3',
         center: [-73.90716566228583, 40.89126099070171],
-        zoom: 13.24256696422702
+        zoom: 13.24256696422702,
+        touchPitch: false,
+        pitchWithRotate: false
 	});
 	mapIsLoaded(map);
 }
@@ -55,18 +57,24 @@ function displayMapMetadata(map){
 	var map = map;
 	var mapZoom = map.getZoom();
 	var mapCenter = map.getCenter();
+	var mapBearing = map.getBearing();
+	var mapBounds = map.getBounds();
 	var mapCenterLatitude = mapCenter.lat;
 	var mapCenterLongitude = mapCenter.lng;
-	
-	document.getElementById('info').innerHTML = 'CENTER: ' +mapCenterLongitude+', '+mapCenterLatitude+ ' ZOOM: '+mapZoom;
+
+	console.log(mapBounds);
+	document.getElementById('info').innerHTML = 'CENTER: ' +mapCenterLongitude+', '+mapCenterLatitude+ ' ZOOM: '+mapZoom + ' BEARING: '+mapBearing;
 
 	map.on('move', function(){
 		mapZoom = map.getZoom();
 		mapCenter = map.getCenter();
+		mapBearing = map.getBearing();
+		mapBounds = map.getBounds();
 		mapCenterLatitude = mapCenter.lat;
 		mapCenterLongitude = mapCenter.lng;
 
-		document.getElementById('info').innerHTML = 'CENTER: ' +mapCenterLongitude+', '+mapCenterLatitude+ ' ZOOM: '+mapZoom;
+		console.log(mapBounds);
+		document.getElementById('info').innerHTML = 'CENTER: ' +mapCenterLongitude+', '+mapCenterLatitude+ ' ZOOM: '+mapZoom + ' BEARING: '+mapBearing;
 	});
 
 	document.getElementById('autoFillMapViewButton').onclick = function(){
@@ -110,23 +118,56 @@ function lockMapView(map){
 
 function setMapView(map){
 
-document.getElementById("setMapViewButton").onclick = function(){
+	var mapViewsDropdown = document.getElementById('mapViewsDropdown');
 
-	console.log('flyto');
+	mapViews.forEach(function(mapView){
+		var mapViewSelectElem = document.createElement('option');
+		mapViewSelectElem.setAttribute('value', mapView.mapName);
+		mapViewSelectElem.innerHTML = mapView.mapName;
+		mapViewsDropdown.append(mapViewSelectElem);
+	});
 
-	var xCoordinateInput = parseFloat(document.getElementById('xCoordinateInput').value);
-	
-	var yCoordinateInput = parseFloat(document.getElementById('yCoordinateInput').value);
-	var userInputZoom = parseFloat(document.getElementById('zoomInput').value);
+	mapViewsDropdown.onchange = function(){
 
-	var userInputCoordinates = [xCoordinateInput,yCoordinateInput];
-	
-	map.flyTo({center: userInputCoordinates, zoom: userInputZoom});
+		var currentDropdownValue = this.value;
 
-}
+		if(currentDropdownValue){
 
+			function isMapView(mapView) {
+				console.log(currentDropdownValue);
+				return mapView.mapName === currentDropdownValue;
+			}
+			selectedMapView = mapViews.find(isMapView);
+			console.log(selectedMapView);
+		};
+	};
 
+	/*document.getElementById("setMapViewButton").onclick = function(){
+
+		console.log('flyto');
+
+		var xCoordinateInput = parseFloat(document.getElementById('xCoordinateInput').value);
+		
+		var yCoordinateInput = parseFloat(document.getElementById('yCoordinateInput').value);
+		var userInputZoom = parseFloat(document.getElementById('zoomInput').value);
+
+		var userInputCoordinates = [xCoordinateInput,yCoordinateInput];
+		
+		map.flyTo({center: userInputCoordinates, zoom: userInputZoom});
+		map.flyTo({
+			center: [0, 0],
+			zoom: 9,
+			pitch: 0,
+			speed: 0.2,
+			curve: 1,
+			easing(t) {
+			return t;
+			}
+		});
+
+	}*/
 };
+
 
 function addSourcesToMap(map){
 
