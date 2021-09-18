@@ -60,6 +60,11 @@ var sourceProperties = [
 		"sourceId" : "neighborhoodsPediacitiesSource",
 		"layerId" : "neighborhoodsPediacitiesLayer",
 		"dataVariable" : nycCommunityBoardDistricts
+	},
+	{
+		"sourceId" : "walkingPathsSource",
+		"layerId" : "walkingPathsLayer",
+		"dataVariable" : walkingPaths
 	}
 ];
 
@@ -67,18 +72,38 @@ var layerProperties = [
 	{
 		"layerId" : "cityCouncilDistrictsLayer",
 		"layerType" : "line",
-		"sourceId" : "cityCouncilDistrictsSource"
-
+		"sourceId" : "cityCouncilDistrictsSource",
+		"defaultPaint" : {
+			"line-width" : ["match",["get", "coun_dist"],["11"],5,1],
+			"line-color" : "#ff0000"
+		} 
 	},
 	{
 		"layerId" : "communityBoardDistrictsLayer",
 		"layerType" : "line",
-		"sourceId" : "communityBoardDistrictsSource"
+		"sourceId" : "communityBoardDistrictsSource",
+		"defaultPaint" : {
+			"line-width" : ["match",["get", "boro_cd"],["208"],5,1],
+			"line-color" : "#0000ff"
+		}
 	},
 	{
 		"layerId" : "neighborhoodsPediacitiesLayer",
 		"layerType" : "line",
-		"sourceId" : "neighborhoodsPediacitiesSource"
+		"sourceId" : "neighborhoodsPediacitiesSource",
+		"defaultPaint" : {
+			"line-width" : ["match",["get", "Neighborhood"],["Spuyten Duyvil"],5,1],
+			"line-color" : "#00ff00"
+		}
+	},
+	{
+		"layerId" : "walkingPathsLayer",
+		"layerType" : "line",
+		"sourceId" : "walkingPathsSource",
+		"defaultPaint" : {
+			"line-width" : 2,
+			"line-color" : "#FFA500"
+		}
 	}
 ];
 

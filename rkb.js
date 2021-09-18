@@ -194,9 +194,7 @@ function addLayersToMap(map){
 			'layout' : {
 				'visibility' : 'visible'
 			},
-			'paint': {
-				'line-color': '#ff0000'
-				}
+			'paint': layer.defaultPaint
 		});
 	});
 
