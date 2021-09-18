@@ -110,9 +110,18 @@ var layerProperties = [
 
 var layerModes = [
 	{
-		"switchId" : "switchLightDarkMode",
-		"switchLabel" : "Light Dark Mode",
-		"layerStyle" : ""
+		"switchId" : "waterSwitch",
+		"switchLabel" : "Water",
+		"layerId" : "water",
+		"uncheckedLayerStyle" : "fillOpaqueStyle",
+		"checkedLayerStyle" : "fillTransparentStyle"
+	},
+	{
+		"switchId" : "landSwitch",
+		"switchLabel" : "Land",
+		"layerId" : "land",
+		"uncheckedLayerStyle" : "backgroundOpaqueStyle",
+		"checkedLayerStyle" : "backgroundTransparentStyle"
 	},
 	{
 		"switchId" : "cityCouncilDistrictsSwitch",
@@ -145,6 +154,34 @@ var layerModes = [
 		"checkedLayerStyle" : "rasterTransparentStyle"
 	},
 	{
+		"switchId" : "roadPrimarySwitch",
+		"switchLabel" : "Primary Roads",
+		"layerId" : "road-primary",
+		"uncheckedLayerStyle" : "lineOpaqueStyle",
+		"checkedLayerStyle" : "lineTransparentStyle"
+	},
+	{
+		"switchId" : "roadSecondarySwitch",
+		"switchLabel" : "Secondary Roads",
+		"layerId" : "road-secondary-tertiary",
+		"uncheckedLayerStyle" : "lineOpaqueStyle",
+		"checkedLayerStyle" : "lineTransparentStyle"
+	},
+	{
+		"switchId" : "minorRoadsSwitch",
+		"switchLabel" : "Minor Roads",
+		"layerId" : "road-minor",
+		"uncheckedLayerStyle" : "lineOpaqueStyle",
+		"checkedLayerStyle" : "lineTransparentStyle"
+	},
+	{
+		"switchId" : "streetRoadsSwitch",
+		"switchLabel" : "Street Roads",
+		"layerId" : "road-street",
+		"uncheckedLayerStyle" : "lineOpaqueStyle",
+		"checkedLayerStyle" : "lineTransparentStyle"
+	},
+	{
 		"switchId" : "templateSwitch",
 		"switchLabel" : "Template Switch",
 		"layerId" : "templateLayer",
@@ -169,6 +206,18 @@ var layerStyles =
 		],
 		"lineTransparentStyle" : [
 			{"property" : "line-opacity", "propertyType" : "paint", "value" : 1}
+		],
+		"fillOpaqueStyle" : [
+			{"property" : "fill-opacity", "propertyType" : "paint", "value" : 0}
+		],
+		"fillTransparentStyle" : [
+			{"property" : "fill-opacity", "propertyType" : "paint", "value" : 1}
+		],
+		"backgroundOpaqueStyle" : [
+			{"property" : "background-opacity", "propertyType" : "paint", "value" : 0}
+		],
+		"backgroundTransparentStyle" : [
+			{"property" : "background-opacity", "propertyType" : "paint", "value" : 1}
 		],
 		"lightMode" : [
 			{"layerId" : "water", "property" : "fill-color", "propertyType" : "paint", "value" : "#000000"},
