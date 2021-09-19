@@ -210,11 +210,25 @@ function createLayerSwitches(map){
 
 	layerModes.forEach(function(layerMode){
 
+		var layerModeIsChecked = layerMode.isChecked;
+
+
 		var divElem = document.createElement('div')
 		var labelElem = document.createElement('label');
 		var inputElem = document.createElement('input');
 		var spanSliderElem = document.createElement('span');
 		var spanLabelElem = document.createElement('span');
+
+
+		if(layerModeIsChecked == true) {
+			inputElem.checked = true;
+		} else if (layerModeIsChecked == false){
+			inputElem.checked = false;
+		} else {
+			('could not set switch')
+		}
+
+
 		
 		divElem.setAttribute('class','layerSwitchContainer');
 		labelElem.setAttribute('class','switch');
@@ -244,7 +258,7 @@ function listenForLayerSwitches(map){
 
 	var switchElements = document.getElementsByClassName('layerSwitch');
 	var switchedLayerMode;
-
+	var switchedLayerIsChecked;
 
 	for (let switchElement of switchElements) {
     	switchElement.addEventListener('click', function(e){
@@ -255,61 +269,76 @@ function listenForLayerSwitches(map){
 
 			switchedLayerMode = layerModes.find(isLayerMode);
 
-			var switchedLayerId = switchedLayerMode.layerId
 
-			if(this.checked === true){
-				var switchedLayerStyleName = switchedLayerMode.checkedLayerStyle;
-				findLayerStyle(map, switchedLayerId, switchedLayerStyleName);
-				//console.log(switchedLayerMode.checkedLayerStyle);
+    		if(this.checked == true){
 
+    			switchedLayerMode.isChecked = true;
+    			console.log(switchedLayerMode.isChecked);
 			} else {
-				var switchedLayerStyleName = switchedLayerMode.uncheckedLayerStyle;
-				findLayerStyle(map, switchedLayerId, switchedLayerStyleName);
-				//console.log(switchedLayerMode.uncheckedLayerStyle);
+    			switchedLayerMode.isChecked = false;
+				console.log(switchedLayerMode.isChecked);
 			}
-
-
-
-
-
-
-		
+			findLayerStyle(map, switchedLayerMode);
     	});
 	}
-
 };
 
 
-function findLayerStyle(map, switchedLayerId, switchedLayerStyleName){
+function findLayerStyle(map, switchedLayerMode){
 
 	var map = map;
-	var switchedLayerId = switchedLayerId;
-	var switchedLayerStyleName = switchedLayerStyleName;
+	var switchedLayerMode = switchedLayerMode;
+	var switchedLayerIsChecked = switchedLayerMode.isChecked;
+	var switchedLayers = switchedLayerMode.switchedLayers
 
-	var layerStyleArray = layerStyles[switchedLayerStyleName];
-	console.log(switchedLayerStyleName)
+	switchedLayers.forEach(function(switchedLayer){
 
-	layerStyleArray.forEach(function(layerStyle){
+		var switchedLayerId = switchedLayer.layerId;
+		var switchedLayerStyleName;
+		var layerStyleArray = layerStyles;
+		var switchedLayerStyleName;
 
-		var layerStylePropertyType = layerStyle.propertyType;
-		var layerStyleProperty = layerStyle.property;
-		var layerStyleValue = layerStyle.value;
-
-		if(layerStylePropertyType === 'layout') {
-
-			map.setLayoutProperty(switchedLayerId, layerStyleProperty, layerStyleValue);
-
-		} else if (layerStylePropertyType === 'paint'){
-
-			map.setPaintProperty(switchedLayerId, layerStyleProperty, layerStyleValue);
-			console.log(layerStyleValue)
-
+		if(switchedLayerIsChecked == true){
+			switchedLayerStyleName = switchedLayer.checkedLayerStyle;
+		} else if (switchedLayerIsChecked == false) {
+			switchedLayerStyleName = switchedLayer.uncheckedLayerStyle;
 		} else {
-
-			console.log('missing property type');
-
+			console.log(switchedLayer);
 		}
+
+		var layerStylesCollection = layerStyles[switchedLayerStyleName];
+		
+		checkPropertyType(switchedLayer, layerStylesCollection)
+
 	});
+
+	function checkPropertyType(switchedLayer, layerStylesCollection){
+
+		var switchedLayer = switchedLayer;
+		var layerStylesCollection = layerStylesCollection;
+
+		layerStylesCollection.forEach(function(layerStyle){
+			
+
+			var switchedLayerId = switchedLayer.layerId;
+			var layerStylePropertyType = layerStyle.propertyType;
+			var layerStyleProperty = layerStyle.property;
+			var layerStyleValue = layerStyle.value;
+			
+			if(layerStylePropertyType === 'layout') {
+
+				map.setLayoutProperty(switchedLayerId, layerStyleProperty, layerStyleValue);
+
+			} else if (layerStylePropertyType === 'paint'){
+
+				map.setPaintProperty(switchedLayerId, layerStyleProperty, layerStyleValue);
+
+			} else {
+
+				console.log('missing property type');
+			}
+		});
+	};
 };
 
 

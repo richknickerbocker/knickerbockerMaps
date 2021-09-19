@@ -59,7 +59,7 @@ var sourceProperties = [
 	{
 		"sourceId" : "neighborhoodsPediacitiesSource",
 		"layerId" : "neighborhoodsPediacitiesLayer",
-		"dataVariable" : nycCommunityBoardDistricts
+		"dataVariable" : nycNeighborhoodsPediacities
 	},
 	{
 		"sourceId" : "walkingPathsSource",
@@ -75,7 +75,8 @@ var layerProperties = [
 		"sourceId" : "cityCouncilDistrictsSource",
 		"defaultPaint" : {
 			"line-width" : ["match",["get", "coun_dist"],["11"],5,1],
-			"line-color" : "#ff0000"
+			"line-color" : "#ff0000",
+			"line-opacity" : 0
 		} 
 	},
 	{
@@ -84,7 +85,8 @@ var layerProperties = [
 		"sourceId" : "communityBoardDistrictsSource",
 		"defaultPaint" : {
 			"line-width" : ["match",["get", "boro_cd"],["208"],5,1],
-			"line-color" : "#0000ff"
+			"line-color" : "#0000ff",
+			"line-opacity" : 0
 		}
 	},
 	{
@@ -92,8 +94,9 @@ var layerProperties = [
 		"layerType" : "line",
 		"sourceId" : "neighborhoodsPediacitiesSource",
 		"defaultPaint" : {
-			"line-width" : ["match",["get", "Neighborhood"],["Spuyten Duyvil"],5,1],
-			"line-color" : "#00ff00"
+			"line-width" : ["match",["get", "neighborhood"],["Spuyten Duyvil"],5,1],
+			"line-color" : "#00ff00",
+			"line-opacity" : 0
 		}
 	},
 	{
@@ -102,7 +105,8 @@ var layerProperties = [
 		"sourceId" : "walkingPathsSource",
 		"defaultPaint" : {
 			"line-width" : 2,
-			"line-color" : "#FFA500"
+			"line-color" : "#FFA500",
+			"line-opacity" : 0
 		}
 	}
 ];
@@ -112,80 +116,150 @@ var layerModes = [
 	{
 		"switchId" : "waterSwitch",
 		"switchLabel" : "Water",
-		"layerId" : "water",
-		"uncheckedLayerStyle" : "fillOpaqueStyle",
-		"checkedLayerStyle" : "fillTransparentStyle"
+		"isChecked" : true,
+		"switchedLayers" : [
+			{
+				"layerId" : "water",
+				"uncheckedLayerStyle" : "fillOpaqueStyle",
+				"checkedLayerStyle" : "fillTransparentStyle"
+			}
+		]
 	},
 	{
 		"switchId" : "landSwitch",
 		"switchLabel" : "Land",
-		"layerId" : "land",
-		"uncheckedLayerStyle" : "backgroundOpaqueStyle",
-		"checkedLayerStyle" : "backgroundTransparentStyle"
+		"isChecked" : true,
+		"switchedLayers" : [
+			{
+				"layerId" : "land",
+				"uncheckedLayerStyle" : "backgroundOpaqueStyle",
+				"checkedLayerStyle" : "backgroundTransparentStyle"
+			}
+		]
 	},
 	{
 		"switchId" : "cityCouncilDistrictsSwitch",
 		"switchLabel" : "City Council Districts",
-		"layerId" : "cityCouncilDistrictsLayer",
-		"uncheckedLayerStyle" : "lineOpaqueStyle",
-		"checkedLayerStyle" : "lineTransparentStyle"
-
+		"isChecked" : false,
+		"switchedLayers" : [
+			{
+				"layerId" : "cityCouncilDistrictsLayer",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			}
+		]
 	},
 	{
 		"switchId" : "communityBoardSwitch",
 		"switchLabel" : "Community Board Districts",
-		"layerId" : "communityBoardDistrictsLayer",
-		"uncheckedLayerStyle" : "lineOpaqueStyle",
-		"checkedLayerStyle" : "lineTransparentStyle"
-
+		"isChecked" : false,
+		"switchedLayers" : [
+			{
+				"layerId" : "communityBoardDistrictsLayer",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			}
+		]
 	},
 	{
 		"switchId" : "neighborhoodsPediacitiesSwitch",
 		"switchLabel" : "Neighborhood Boundaries",
-		"layerId" : "neighborhoodsPediacitiesLayer",
-		"uncheckedLayerStyle" : "lineOpaqueStyle",
-		"checkedLayerStyle" : "lineTransparentStyle"
+		"isChecked" : false,
+		"switchedLayers" : [
+			{
+				"layerId" : "neighborhoodsPediacitiesLayer",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			}
+		]
 	},
 	{
 		"switchId" : "SatelliteSwitch",
 		"switchLabel" : "Satellite",
-		"layerId" : "satellite",
-		"uncheckedLayerStyle" : "rasterOpaqueStyle",
-		"checkedLayerStyle" : "rasterTransparentStyle"
+		"isChecked" : false,
+		"switchedLayers" : [
+			{
+				"layerId" : "satellite",
+				"uncheckedLayerStyle" : "rasterTransparentStyle",
+				"checkedLayerStyle" : "rasterOpaqueStyle"
+			}
+		]
+
+	},
+	{
+		"switchId" : "allRoadsSwitch",
+		"switchLabel" : "Show Roads",
+		"isChecked" : false,
+		"switchedLayers" : [
+			{
+				"layerId" : "road-primary",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "road-secondary-tertiary",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "road-street",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "road-minor",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			}
+		]
 	},
 	{
 		"switchId" : "roadPrimarySwitch",
 		"switchLabel" : "Primary Roads",
-		"layerId" : "road-primary",
-		"uncheckedLayerStyle" : "lineOpaqueStyle",
-		"checkedLayerStyle" : "lineTransparentStyle"
+		"isChecked" : false,
+		"switchedLayers" : [
+			{
+				"layerId" : "road-primary",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			}
+		]
 	},
 	{
 		"switchId" : "roadSecondarySwitch",
 		"switchLabel" : "Secondary Roads",
-		"layerId" : "road-secondary-tertiary",
-		"uncheckedLayerStyle" : "lineOpaqueStyle",
-		"checkedLayerStyle" : "lineTransparentStyle"
+		"isChecked" : false,
+		"switchedLayers" : [
+			{
+				"layerId" : "road-secondary-tertiary",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			}
+		]
 	},
 	{
 		"switchId" : "minorRoadsSwitch",
 		"switchLabel" : "Minor Roads",
-		"layerId" : "road-minor",
-		"uncheckedLayerStyle" : "lineOpaqueStyle",
-		"checkedLayerStyle" : "lineTransparentStyle"
+		"isChecked" : false,
+		"switchedLayers" : [
+			{
+				"layerId" : "road-minor",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			}
+		]
 	},
 	{
 		"switchId" : "streetRoadsSwitch",
 		"switchLabel" : "Street Roads",
-		"layerId" : "road-street",
-		"uncheckedLayerStyle" : "lineOpaqueStyle",
-		"checkedLayerStyle" : "lineTransparentStyle"
-	},
-	{
-		"switchId" : "templateSwitch",
-		"switchLabel" : "Template Switch",
-		"layerId" : "templateLayer",
-		"layerStyle" : "templateStyle"
+		"isChecked" : false,
+		"switchedLayers" : [
+			{
+				"layerId" : "road-street",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			}
+		]
 	}
 ];
 	var darkColor = '#000000';
@@ -196,16 +270,16 @@ var layerModes = [
 var layerStyles = 
 	{
 		"rasterOpaqueStyle" : [
-			{"property" : "raster-opacity", "propertyType" : "paint", "value" : 0}
-		],
-		"rasterTransparentStyle" : [
 			{"property" : "raster-opacity", "propertyType" : "paint", "value" : 1}
 		],
+		"rasterTransparentStyle" : [
+			{"property" : "raster-opacity", "propertyType" : "paint", "value" : 0}
+		],
 		"lineOpaqueStyle" : [
-			{"property" : "line-opacity", "propertyType" : "paint", "value" : 0}
+			{"property" : "line-opacity", "propertyType" : "paint", "value" : 1}
 		],
 		"lineTransparentStyle" : [
-			{"property" : "line-opacity", "propertyType" : "paint", "value" : 1}
+			{"property" : "line-opacity", "propertyType" : "paint", "value" : 0}
 		],
 		"fillOpaqueStyle" : [
 			{"property" : "fill-opacity", "propertyType" : "paint", "value" : 0}
