@@ -1,3 +1,44 @@
+ /* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	#mapMenuContainer {
+		width:  90vw;
+		margin-left:  -90vw;
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {...}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {...}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {...}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+		#mapMenuContainer {
+		width:  30vw;
+		margin-left:  -30vw;
+	}
+} 
+
+#mapMenuContainer {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-content: center;
+	height: calc(100vh - 100px);
+	background:  white;
+
+	margin-top:  50px;
+	margin-bottom: 50px;
+	border-radius: 10px;
+	box-shadow: 0 0 50px -25px black;
+	overflow-y: scroll;
+}
 body {
 	margin: 0px;
 	padding: 0;
@@ -66,23 +107,7 @@ body {
 	align-content: center;
 	margin-top:  1vh;
 }
-#mapMenuContainer {
-	position: absolute;
-	display: flex;
-	flex-direction: column;
-	flex-wrap: nowrap;
-	justify-content: flex-start;
-	align-content: center;
-	width:  30vw;
-	height: calc(100vh - 100px);
-	background:  white;
-	margin-left:  -30vw;
-	margin-top:  50px;
-	margin-bottom: 50px;
-	border-radius: 10px;
-	box-shadow: 0 0 50px -25px black;
-	overflow-y: scroll;
-}
+
 #mapMenuContainer.open {
 	margin-left:  0vw;
 }
