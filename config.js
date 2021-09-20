@@ -132,40 +132,60 @@ var layerModes = [
 		"switchedLayers" : [
 			{
 				"layerId" : "land",
-				"uncheckedLayerStyle" : "backgroundOpaqueStyle",
-				"checkedLayerStyle" : "backgroundTransparentStyle"
+				"uncheckedLayerStyle" : "backgroundTransparentStyle",
+				"checkedLayerStyle" : "backgroundOpaqueStyle"
+			},
+			{
+				"layerId" : "hillshade",
+				"uncheckedLayerStyle" : "hillshadeTransparentStyle",
+				"checkedLayerStyle" : "hillshadeOpaqueStyle"
 			}
 		]
 	},
 	{
-		"switchId" : "cityCouncilDistrictsSwitch",
-		"switchLabel" : "City Council Districts",
+		"switchId" : "landUseSwitch",
+		"switchLabel" : "Land Use",
+		"isChecked" : true,
+		"switchedLayers" : [
+			{
+				"layerId" : "pitch-outline",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "landuse",
+				"uncheckedLayerStyle" : "fillTransparentStyle",
+				"checkedLayerStyle" : "fillOpaqueStyle"
+			}
+		]
+	},
+	{
+		"switchId" : "buildingExtrudedSwitch",
+		"switchLabel" : "Buildings",
+		"isChecked" : true,
+		"switchedLayers" : [
+			{
+				"layerId" : "building-extrusion",
+				"uncheckedLayerStyle" : "extrusionTransparentStyle",
+				"checkedLayerStyle" : "extrusionOpaqueStyle"
+			}
+		]
+	},
+	{
+		"switchId" : "boundariesSwitch",
+		"switchLabel" : "Boundaries",
 		"isChecked" : false,
 		"switchedLayers" : [
 			{
 				"layerId" : "cityCouncilDistrictsLayer",
 				"uncheckedLayerStyle" : "lineTransparentStyle",
 				"checkedLayerStyle" : "lineOpaqueStyle"
-			}
-		]
-	},
-	{
-		"switchId" : "communityBoardSwitch",
-		"switchLabel" : "Community Board Districts",
-		"isChecked" : false,
-		"switchedLayers" : [
+			},
 			{
 				"layerId" : "communityBoardDistrictsLayer",
 				"uncheckedLayerStyle" : "lineTransparentStyle",
 				"checkedLayerStyle" : "lineOpaqueStyle"
-			}
-		]
-	},
-	{
-		"switchId" : "neighborhoodsPediacitiesSwitch",
-		"switchLabel" : "Neighborhood Boundaries",
-		"isChecked" : false,
-		"switchedLayers" : [
+			},
 			{
 				"layerId" : "neighborhoodsPediacitiesLayer",
 				"uncheckedLayerStyle" : "lineTransparentStyle",
@@ -188,9 +208,24 @@ var layerModes = [
 	},
 	{
 		"switchId" : "allRoadsSwitch",
-		"switchLabel" : "Show Roads",
-		"isChecked" : false,
+		"switchLabel" : "Roads",
+		"isChecked" : true,
 		"switchedLayers" : [
+			{
+				"layerId" : "road-motorway-trunk",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "bridge-motorway-trunk",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "bridge-motorway-trunk-2",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
 			{
 				"layerId" : "road-primary",
 				"uncheckedLayerStyle" : "lineTransparentStyle",
@@ -198,6 +233,11 @@ var layerModes = [
 			},
 			{
 				"layerId" : "road-secondary-tertiary",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "bridge-primary-secondary-tertiary",
 				"uncheckedLayerStyle" : "lineTransparentStyle",
 				"checkedLayerStyle" : "lineOpaqueStyle"
 			},
@@ -210,54 +250,16 @@ var layerModes = [
 				"layerId" : "road-minor",
 				"uncheckedLayerStyle" : "lineTransparentStyle",
 				"checkedLayerStyle" : "lineOpaqueStyle"
-			}
-		]
-	},
-	{
-		"switchId" : "roadPrimarySwitch",
-		"switchLabel" : "Primary Roads",
-		"isChecked" : false,
-		"switchedLayers" : [
+			},
 			{
-				"layerId" : "road-primary",
+				"layerId" : "bridge-street-minor",
 				"uncheckedLayerStyle" : "lineTransparentStyle",
 				"checkedLayerStyle" : "lineOpaqueStyle"
-			}
-		]
-	},
-	{
-		"switchId" : "roadSecondarySwitch",
-		"switchLabel" : "Secondary Roads",
-		"isChecked" : false,
-		"switchedLayers" : [
+			},
 			{
-				"layerId" : "road-secondary-tertiary",
-				"uncheckedLayerStyle" : "lineTransparentStyle",
-				"checkedLayerStyle" : "lineOpaqueStyle"
-			}
-		]
-	},
-	{
-		"switchId" : "minorRoadsSwitch",
-		"switchLabel" : "Minor Roads",
-		"isChecked" : false,
-		"switchedLayers" : [
-			{
-				"layerId" : "road-minor",
-				"uncheckedLayerStyle" : "lineTransparentStyle",
-				"checkedLayerStyle" : "lineOpaqueStyle"
-			}
-		]
-	},
-	{
-		"switchId" : "streetRoadsSwitch",
-		"switchLabel" : "Street Roads",
-		"isChecked" : false,
-		"switchedLayers" : [
-			{
-				"layerId" : "road-street",
-				"uncheckedLayerStyle" : "lineTransparentStyle",
-				"checkedLayerStyle" : "lineOpaqueStyle"
+				"layerId" : "road-label",
+				"uncheckedLayerStyle" : "iconTransparentStyle",
+				"checkedLayerStyle" : "iconOpaqueStyle"
 			}
 		]
 	}
@@ -288,28 +290,27 @@ var layerStyles =
 			{"property" : "fill-opacity", "propertyType" : "paint", "value" : 1}
 		],
 		"backgroundOpaqueStyle" : [
-			{"property" : "background-opacity", "propertyType" : "paint", "value" : 0}
-		],
-		"backgroundTransparentStyle" : [
 			{"property" : "background-opacity", "propertyType" : "paint", "value" : 1}
 		],
-		"lightMode" : [
-			{"layerId" : "water", "property" : "fill-color", "propertyType" : "paint", "value" : "#000000"},
-			{"layerId" : "land", "property" : "background-color", "propertyType" : "paint", "value" : "#ffffff"}
+		"backgroundTransparentStyle" : [
+			{"property" : "background-opacity", "propertyType" : "paint", "value" : 0}
 		],
-		"darkMode" : [
-			{"layerId" : "water", "property" : "fill-color", "propertyType" : "paint", "value" : "#ffffff"},
-			{"layerId" : "land", "property" : "background-color", "propertyType" : "paint", "value" : "#000000"}
+		"extrusionOpaqueStyle" : [
+			{"property" : "fill-extrusion-opacity", "propertyType" : "paint", "value" : .3}
 		],
-		"emphasizeBoundary" : [
-			{"property" : "line-color", "propertyType" : "paint", "value" : "#ff0000"},
-			{"property" : "line-width", "propertyType" : "paint", "value" : 10}
+		"extrusionTransparentStyle" : [
+			{"property" : "fill-extrusion-opacity", "propertyType" : "paint", "value" : 0}
 		],
-		"streetMode" : [
-			{"road-primary" : {"color" : roadColor}},
-			{"road-secondary-tertiary" : {"color" : roadColor}},
-			{"road-street" : {"color" : roadColor}},
-			{"road-minor" : {"color" : roadColor}},
-			{"road-primary" : {"color" : roadColor}}
-		]
+		"iconOpaqueStyle" : [
+			{"property" : "text-opacity", "propertyType" : "paint", "value" : 1}
+		],
+		"iconTransparentStyle" : [
+			{"property" : "text-opacity", "propertyType" : "paint", "value" : 0}
+		],
+		"hillshadeOpaqueStyle" : [
+			{"property" : "fill-opacity", "propertyType" : "paint", "value" : ["match",["get", "level"],[67, 56],0.1,[89, 78],0.07,0.15]}
+		],
+		"hillshadeTransparentStyle" : [
+			{"property" : "fill-opacity", "propertyType" : "paint", "value" : 0}
+		] 
 	}
