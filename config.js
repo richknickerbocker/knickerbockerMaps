@@ -270,7 +270,7 @@ var layerModes = [
 var layerStyles = 
 	{
 		"rasterOpaqueStyle" : [
-			{"property" : "raster-opacity", "propertyType" : "paint", "value" : 1}
+			{"property" : "raster-opacity", "propertyType" : "paint", "value" : .5}
 		],
 		"rasterTransparentStyle" : [
 			{"property" : "raster-opacity", "propertyType" : "paint", "value" : 0}

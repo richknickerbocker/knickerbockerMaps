@@ -30,7 +30,17 @@ function createMap(){
 
 function mapIsLoaded(map){
 	var map = map;
+	
 	map.addControl(new mapboxgl.NavigationControl());
+
+	map.addControl(new mapboxgl.GeolocateControl({
+		positionOptions: {
+			enableHighAccuracy: true
+		},
+		trackUserLocation: true,
+		showUserHeading: true
+	}));
+
 	map.once('idle', function(){
 		configureUserInteractions(map);
 		displayMapMetadata(map);
