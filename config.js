@@ -42,6 +42,21 @@ var mapViews = [{
 				"pitch": 0
 			}
 		]
+	},
+	{
+		"mapName": "Spuyten Duyvil Shorefront Park",
+		"views": [{
+				"center" : [-73.92064015557834, 40.87822372862141],
+				"zoom" : 17.939143375787804,
+				"pitch" : 0,
+				"bearing" : -132.00000000000134
+			},
+			{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			}
+		]
 	}
 ];
 
@@ -104,9 +119,10 @@ var layerProperties = [
 		"layerType" : "line",
 		"sourceId" : "walkingPathsSource",
 		"defaultPaint" : {
-			"line-width" : 2,
-			"line-color" : "#FFA500",
-			"line-opacity" : 0
+			"line-width" : ["interpolate",["exponential", 1.5],["zoom"],13,0.5,14,1,15,1,18,4],
+			"line-color" : "#ffffff",
+			"line-opacity" : 1,
+			"line-dasharray" : ["step",["zoom"],["literal", [5, 0.5]],15,["literal", [4, 0.5]],16,["literal", [4, 0.45]]]
 		}
 	}
 ];
@@ -143,8 +159,8 @@ var layerModes = [
 		]
 	},
 	{
-		"switchId" : "landUseSwitch",
-		"switchLabel" : "Land Use",
+		"switchId" : "parksSwitch",
+		"switchLabel" : "Parks",
 		"isChecked" : true,
 		"switchedLayers" : [
 			{
@@ -156,6 +172,63 @@ var layerModes = [
 				"layerId" : "landuse",
 				"uncheckedLayerStyle" : "fillTransparentStyle",
 				"checkedLayerStyle" : "fillOpaqueStyle"
+			}
+		]
+	},
+	{
+		"switchId" : "pathsSwitch",
+		"switchLabel" : "Paths",
+		"isChecked" : true,
+		"switchedLayers" : [
+			{
+				"layerId" : "road-pedestrian-polygon-pattern",
+				"uncheckedLayerStyle" : "fillTransparentStyle",
+				"checkedLayerStyle" : "fillOpaqueStyle"
+			},
+			{
+				"layerId" : "road-pedestrian-polygon-fill",
+				"uncheckedLayerStyle" : "fillTransparentStyle",
+				"checkedLayerStyle" : "fillOpaqueStyle"
+			},
+			{
+				"layerId" : "road-pedestrian",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "road-steps",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "road-path",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "road-path-cycleway-piste",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "road-path-trail",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "road-steps-bg",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "road-path-bg",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "walkingPathsLayer",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
 			}
 		]
 	},
@@ -255,14 +328,64 @@ var layerModes = [
 				"layerId" : "bridge-street-minor",
 				"uncheckedLayerStyle" : "lineTransparentStyle",
 				"checkedLayerStyle" : "lineOpaqueStyle"
+			}
+		]
+	},
+	{
+		"switchId" : "transitSwitch",
+		"switchLabel" : "Transit",
+		"isChecked" : true,
+		"switchedLayers" : [
+			{
+				"layerId" : "aeroway-line",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
 			},
 			{
+				"layerId" : "aeroway-polygon",
+				"uncheckedLayerStyle" : "fillTransparentStyle",
+				"checkedLayerStyle" : "fillOpaqueStyle"
+			},
+			{
+				"layerId" : "ferry-auto",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "ferry",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "road-rail-tracks",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
+			{
+				"layerId" : "road-rail",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			}
+		]
+	},
+	{
+		"switchId" : "labelsSwitch",
+		"switchLabel" : "Labels",
+		"isChecked" : false,
+		"switchedLayers" : [
+			{
 				"layerId" : "road-label",
-				"uncheckedLayerStyle" : "iconTransparentStyle",
-				"checkedLayerStyle" : "iconOpaqueStyle"
+				"uncheckedLayerStyle" : "textTransparentStyle",
+				"checkedLayerStyle" : "textOpaqueStyle"
+			},
+			{
+				"layerId" : "road-path-pedestrian-label",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
 			}
 		]
 	}
+
 ];
 	var darkColor = '#000000';
 	var lightColor = '';
@@ -284,10 +407,10 @@ var layerStyles =
 			{"property" : "line-opacity", "propertyType" : "paint", "value" : 0}
 		],
 		"fillOpaqueStyle" : [
-			{"property" : "fill-opacity", "propertyType" : "paint", "value" : 0}
+			{"property" : "fill-opacity", "propertyType" : "paint", "value" : 1}
 		],
 		"fillTransparentStyle" : [
-			{"property" : "fill-opacity", "propertyType" : "paint", "value" : 1}
+			{"property" : "fill-opacity", "propertyType" : "paint", "value" : 0}
 		],
 		"backgroundOpaqueStyle" : [
 			{"property" : "background-opacity", "propertyType" : "paint", "value" : 1}
@@ -301,10 +424,10 @@ var layerStyles =
 		"extrusionTransparentStyle" : [
 			{"property" : "fill-extrusion-opacity", "propertyType" : "paint", "value" : 0}
 		],
-		"iconOpaqueStyle" : [
+		"textOpaqueStyle" : [
 			{"property" : "text-opacity", "propertyType" : "paint", "value" : 1}
 		],
-		"iconTransparentStyle" : [
+		"textTransparentStyle" : [
 			{"property" : "text-opacity", "propertyType" : "paint", "value" : 0}
 		],
 		"hillshadeOpaqueStyle" : [
