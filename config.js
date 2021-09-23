@@ -45,11 +45,12 @@ var mapViews = [{
 	},
 	{
 		"mapName": "Spuyten Duyvil Shorefront Park",
-		"views": [{
-				"center" : [-73.92064015557834, 40.87822372862141],
-				"zoom" : 17.939143375787804,
+			"views": [
+			{
+				"center" : [-73.9208, 40.8783],
+				"zoom" : 17.58,
 				"pitch" : 0,
-				"bearing" : -132.00000000000134
+				"bearing" : -132.00
 			},
 			{
 				"center": [0, 0],
@@ -170,6 +171,11 @@ var layerModes = [
 			},
 			{
 				"layerId" : "landuse",
+				"uncheckedLayerStyle" : "fillTransparentStyle",
+				"checkedLayerStyle" : "fillOpaqueStyle"
+			},
+			{
+				"layerId" : "rkb-polygons",
 				"uncheckedLayerStyle" : "fillTransparentStyle",
 				"checkedLayerStyle" : "fillOpaqueStyle"
 			}
