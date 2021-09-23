@@ -47,8 +47,8 @@ var mapViews = [{
 		"mapName": "Spuyten Duyvil Shorefront Park",
 			"views": [
 			{
-				"center" : [-73.9208, 40.8783],
-				"zoom" : 17.58,
+				"center" : [-73.9208, 40.8782],
+				"zoom" : 17.5,
 				"pitch" : 0,
 				"bearing" : -132.00
 			},
