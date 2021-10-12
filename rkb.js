@@ -31,15 +31,9 @@ function createMap(){
 function mapIsLoaded(map){
 	var map = map;
 	
-	map.addControl(new mapboxgl.NavigationControl());
+	toggleMapControls(map);
 
-	map.addControl(new mapboxgl.GeolocateControl({
-		positionOptions: {
-			enableHighAccuracy: true
-		},
-		trackUserLocation: true,
-		showUserHeading: true
-	}));
+
 
 	map.once('idle', function(){
 		configureUserInteractions(map);
@@ -49,6 +43,39 @@ function mapIsLoaded(map){
 		addSourcesToMap(map);
 	});
 }
+
+function toggleMapControls(map){
+	var map = map;
+	var navControl = new mapboxgl.NavigationControl({
+		showZoom: false
+	});
+	var geoControl = new mapboxgl.GeolocateControl({
+		positionOptions: {
+			enableHighAccuracy: true
+		},
+		trackUserLocation: true,
+		showUserHeading: true
+	})
+
+	map.addControl(navControl, 'bottom-right');
+	map.addControl(geoControl, 'bottom-right');
+
+	document.getElementById('toggleMapControls').onclick = function(){
+		if(map.hasControl(navControl)){
+			map.removeControl(navControl);
+		} else {
+			map.addControl(navControl,'bottom-right');
+		}
+
+		if(map.hasControl(geoControl)){
+			map.removeControl(geoControl);
+		} else {
+			map.addControl(geoControl, 'bottom-right');
+		}
+	};
+
+
+};
 
 function configureUserInteractions(map){
 	map.touchZoomRotate.disableRotation();
