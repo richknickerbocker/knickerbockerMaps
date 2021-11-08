@@ -14,6 +14,87 @@ var mapViews = [{
 		]
 	},
 	{
+		"mapName": "Manhattan",
+		"views": [
+			{
+				"center" : [-73.98006646462507, 40.79731141532304],
+				"zoom" : 10.859652518297729,
+				"pitch" : 0,
+				"bearing" : 120,
+			},
+			{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			}
+		]
+	},
+	{
+		"mapName": "New York City",
+		"views": [
+			{
+				"center" : [-73.94760374673925, 40.71987834205498],
+				"zoom" : 9.978052176095312,
+				"pitch" : 0,
+				"bearing" : 120
+			}
+		]
+	},
+	{
+		"mapName": "Spuyten Duyvil Trail End",
+		"views": [
+			{
+				"center" : [-73.91957740634719, 40.8766567303318],
+				"zoom" : 18.68467954939521,
+				"pitch" : 0,
+				"bearing" : -133.1321799307957
+			},
+			{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			}
+		]
+	},
+	{
+		"mapName": "Harlem River Shipping Canal",
+		"views": [
+			{
+				"center" : [-73.92579593430054, 40.878279723598894],
+				"zoom" : 14.190953176720289,
+				"pitch" : 0,
+				"bearing" : -132.00000000000003
+			}
+		]
+	},
+	{
+		"mapName": "Elm Tree",
+		"views": [
+			{
+				"center" : [-73.91924555250007, 40.8775260170556],
+				"zoom" : 21.0435353932869,
+				"pitch" : 0,
+				"bearing" : -132.00000000000003
+			}
+		]
+	},
+	{
+		"mapName": "Spuyten Duyvil Shorefront Park 2",
+			"views": [
+			{
+				"center" : [-73.9216460092592, 40.878176184105456],
+				"zoom" : 17.16461513995972,
+				"pitch" : 0,
+				"bearing" : -132.00000000000003
+			},
+			{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			}
+		]
+	},
+	{
 		"mapName": "Spuyten Duyvil",
 		"views": [{
 				"center": [-73.92073480323454, 40.88241506371213],
@@ -44,7 +125,7 @@ var mapViews = [{
 		]
 	},
 	{
-		"mapName": "Spuyten Duyvil Shorefront Park",
+		"mapName": "Spuyten Duyvil Shorefront Park Old",
 			"views": [
 			{
 				"center" : [-73.9208, 40.8782],
@@ -58,10 +139,79 @@ var mapViews = [{
 				"pitch": 0
 			}
 		]
+	},
+	{
+		"mapName": "Henry Hudson Bridge",
+			"views": [
+			{
+				"center" : [-73.92523296419908, 40.875938727446595],
+				"zoom" : 14.469937886670298,
+				"pitch" : 0,
+				"bearing" : -132.00000000000003
+			},
+			{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			}
+		]
+	},
+	{
+		"mapName": "Inwood Hill Park",
+			"views": [
+			{
+				"center" : [-73.92770430019756, 40.87400004918919],
+				"zoom" : 15.102961323052842,
+				"pitch" : 0,
+				"bearing" : -132.00000000000003
+			},
+			{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			}
+		]
+	},
+	{
+		"mapName": "Harlem River",
+			"views": [
+			{
+				"center" : [-73.9318257554201, 40.87842092754943],
+				"zoom" : 14.258456202138976,
+				"pitch" : 0,
+				"bearing" : -132.00000000000003
+			},
+			{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			}
+		]
+	},
+	{
+		"mapName": "Manhattan Inset",
+			"views": [
+			{
+				"center" : [-74.1180793559383, 41.14434992256494],
+				"zoom" : 9.850060822797825,
+				"pitch" : 0,
+				"bearing" : -132.00000000000003
+			},
+			{
+				"center": [0, 0],
+				"zoom": 9,
+				"pitch": 0
+			}
+		]
 	}
 ];
 
 var sourceProperties = [
+	{
+		"sourceId" : "boroughBoundariesSource",
+		"layerId" : "boroughBoundariesLayer",
+		"dataVariable" : nycBoroughBoundaries
+	},
 	{
 		"sourceId" : "cityCouncilDistrictsSource",
 		"layerId" : "cityCouncilDistrictsLayer",
@@ -85,6 +235,16 @@ var sourceProperties = [
 ];
 
 var layerProperties = [
+	{
+		"layerId" : "boroughBoundariesLayer",
+		"layerType" : "line",
+		"sourceId" : "boroughBoundariesSource",
+		"defaultPaint" : {
+			"line-width" : 5,
+			"line-color" : "#000000",
+			"line-opacity" : 1
+		} 
+	},
 	{
 		"layerId" : "cityCouncilDistrictsLayer",
 		"layerType" : "line",
@@ -255,6 +415,11 @@ var layerModes = [
 		"switchLabel" : "Boundaries",
 		"isChecked" : false,
 		"switchedLayers" : [
+			{
+				"layerId" : "boroughBoundariesLayer",
+				"uncheckedLayerStyle" : "lineTransparentStyle",
+				"checkedLayerStyle" : "lineOpaqueStyle"
+			},
 			{
 				"layerId" : "cityCouncilDistrictsLayer",
 				"uncheckedLayerStyle" : "lineTransparentStyle",

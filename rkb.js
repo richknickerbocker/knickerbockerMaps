@@ -22,8 +22,9 @@ function createMap(){
         style: 'mapbox://styles/joeyazoulai/ckscf1y5c114v17n1ededa4d3',
         center: [-73.90716566228583, 40.89126099070171],
         zoom: 13.24256696422702,
-        touchPitch: false,
-        pitchWithRotate: false
+        hash: true
+        //touchPitch: false
+        //pitchWithRotate: false
 	});
 	mapIsLoaded(map);
 }
@@ -78,7 +79,7 @@ function toggleMapControls(map){
 };
 
 function configureUserInteractions(map){
-	map.touchZoomRotate.disableRotation();
+	//map.touchZoomRotate.disableRotation();
 
 	map.on('zoom', function(){	
 		map.dragPan.disable();
